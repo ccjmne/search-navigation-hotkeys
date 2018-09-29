@@ -18,6 +18,18 @@ module.exports = {
           presets: ['@babel/env']
         }
       }
+    }, {
+      test: /\.scss$/,
+      exclude: /node_modules/,
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader',
+        options: { minimize: true }
+      }, {
+        loader: 'sass-loader',
+        options: { outputStyle: 'compressed' }
+      }]
     }]
   },
   plugins: [
