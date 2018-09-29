@@ -1,3 +1,4 @@
-export { default as throttle } from './throttle.js';
-export { default as onceSome } from './once.js';
-export { getUrlParameter, updateUrlParameter } from './query-parameters.js';
+export { default as throttle } from './throttle';
+export { default as onceSome } from './once';
+export { getUrlParameter, updateUrlParameter } from './query-parameters';
+export { create, detach } from './elements';
