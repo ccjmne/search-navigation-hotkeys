@@ -16,10 +16,10 @@
    * Utils
    */
   function addStyle(css) {
-    (sheet => sheet.insertRule(css, (sheet.rules || sheet.cssRules || []).length))((document.getElementById("GM_addStyleBy8626") || (function () {
+    (sheet => sheet.insertRule(css, (sheet.rules || sheet.cssRules || []).length))((document.getElementById('GM_addStyleBy8626') || (function () {
       const style = document.createElement('style');
       style.type = 'text/css';
-      style.id = "GM_addStyleBy8626";
+      style.id = 'GM_addStyleBy8626';
       document.head.appendChild(style);
       return style;
     })()).sheet);
@@ -29,12 +29,12 @@
     let lastCall = 0;
 
     return function (...args) {
-      const now = (new Date).getTime();
+      const now = (new Date()).getTime();
       if (now - lastCall >= delay) {
         lastCall = now;
         return fn(...args);
       }
-    }
+    };
   }
 
   // https://stackoverflow.com/a/6021027
@@ -44,12 +44,12 @@
       var hash = i === -1 ? '' : uri.substr(i);
       uri = i === -1 ? uri : uri.substr(0, i);
 
-      var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-      var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+      var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+      var separator = uri.indexOf('?') !== -1 ? '&' : '?';
       if (uri.match(re)) {
-        uri = uri.replace(re, '$1' + key + "=" + value + '$2');
+        uri = uri.replace(re, '$1' + key + '=' + value + '$2');
       } else {
-        uri = uri + separator + key + "=" + value;
+        uri = uri + separator + key + '=' + value;
       }
 
       return uri + hash;
@@ -228,7 +228,7 @@
       focus: idx => (this.cur = idx) === -1 ? (input => {
         input.focus();
         input.setSelectionRange(input.value.length, input.value.length);
-        indicator.parentNode && indicator.parentNode.removeChild(indicator);
+        if (indicator.parentNode) { indicator.parentNode.removeChild(indicator); }
       })(document.querySelector('input[title=Search]')) : (result => {
         result.link.focus();
         result.container.prepend(indicator);
