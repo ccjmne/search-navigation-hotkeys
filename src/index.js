@@ -1,6 +1,6 @@
 'use strict';
 
-import { addStyle, onceSome, throttle, getUrlParameter, updateUrlParameter } from './utils/module';
+import { onceSome, throttle, getUrlParameter, updateUrlParameter } from './utils/module';
 require('./styles/module.scss');
 
 
