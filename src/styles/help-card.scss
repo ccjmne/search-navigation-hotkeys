@@ -1,0 +1,75 @@
+#ccjmne--google-search-hotkeys--help-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
+  border-bottom: 1px solid $colour-accent;
+  background-color: $colour-primary;
+  color: nth($light, 2);
+  font-size: 18px;
+}
+
+#ccjmne--google-search-hotkeys--help-card {
+  a,
+  a:visited {
+    color: nth($light, 2);
+  }
+
+  em {
+    color: $colour-accent;
+    font-weight: normal;
+  }
+
+  kbd {
+    display: inline-block;
+    padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
+    border: 1px solid nth($dark, 3);
+    border-radius: 3px;
+    background-color: nth($light, 2);
+    box-shadow: 0 1px 0 fade-out(nth($dark, 1), .8);
+    font-family: monospace;
+    white-space: nowrap;
+    cursor: default;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+
+    &:last-child tr:last-child td {
+      border-bottom: map-get($spacing-h, comfortable) solid nth($light, 2);
+    }
+
+    tr {
+      &:nth-child(2n) {
+        background-color: fade-out(nth($dark, 1), .9);
+      }
+
+      &:hover {
+        background-color: fade-out($colour-primary, .5);
+        color: nth($dark, 1);
+
+        kbd {
+          color: $colour-accent;
+        }
+      }
+
+      &.ccjmne--google-search-hotkeys--new-section td {
+        border-top: map-get($spacing-h, comfortable) solid nth($light, 2);
+      }
+
+      td {
+        padding: map-get($spacing-h, tight-em) 0 map-get($spacing-h, tight-em) map-get($spacing-w, comfortable);
+        white-space: nowrap;
+
+        &:last-child {
+          padding-right: map-get($spacing-w, comfortable);
+          text-align: right;
+        }
+      }
+    }
+  }
+}

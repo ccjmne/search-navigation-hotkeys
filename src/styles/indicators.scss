@@ -1,0 +1,22 @@
+#ccjmne--google-search-hotkeys--indicator,
+.ccjmne--google-search-hotkeys--number-indicator {
+  cursor: help;
+}
+
+#ccjmne--google-search-hotkeys--indicator {
+  position: absolute;
+  left: -1.5em;
+  color: $colour-accent;
+  font-size: 18px;
+}
+
+.ccjmne--google-search-hotkeys--number-indicator {
+  position: absolute;
+  left: -1.5em;
+  transform: translate(-100%, 20%);
+  font-family: monospace;
+
+  @at-root #ccjmne--google-search-hotkeys--indicator + & {
+    display: none;
+  }
+}

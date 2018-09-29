@@ -1,6 +1,8 @@
 'use strict';
 
 import { addStyle, onceSome, throttle, getUrlParameter, updateUrlParameter } from './utils/module';
+require('./styles/module.scss');
+
 
 /*
  * Help panel
@@ -8,14 +10,12 @@ import { addStyle, onceSome, throttle, getUrlParameter, updateUrlParameter } fro
 const backdrop = document.createElement('div');
 backdrop.id = 'ccjmne--google-search-hotkeys--backdrop';
 backdrop.innerHTML = `
-      <div id="ccjmne--google-search-hotkeys--anchor">
-          <div id="ccjmne--google-search-hotkeys--tilt-origin">
-              <div id="ccjmne--google-search-hotkeys--help-shadow"></div>
-              <div id="ccjmne--google-search-hotkeys--help-card-container">
-                  <div id="ccjmne--google-search-hotkeys--help-card">
-                      <div id="ccjmne--google-search-hotkeys--help-card-title"><span>Google Search Hotkeys</span><small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small></div>
-                      <table></table>
-                  </div>
+      <div id="ccjmne--google-search-hotkeys--tilt-origin">
+          <div id="ccjmne--google-search-hotkeys--help-shadow"></div>
+          <div id="ccjmne--google-search-hotkeys--help-card-container">
+              <div id="ccjmne--google-search-hotkeys--help-card">
+                  <div id="ccjmne--google-search-hotkeys--help-card-title"><span>Google Search Hotkeys</span><small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small></div>
+                  <table></table>
               </div>
           </div>
       </div>`;
@@ -201,40 +201,3 @@ onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (n
     40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
   });
 }).bind({}));
-
-/*
- * Styling
- */
-addStyle(`#ccjmne--google-search-hotkeys--indicator { position: absolute; left: -1.5em; font-size: 18px; color: crimson; }`);
-addStyle(`.ccjmne--google-search-hotkeys--number-indicator { position: absolute; left: -1.5em; transform: translate(-100%, 20%); font-family: monospace; }`);
-addStyle(`#ccjmne--google-search-hotkeys--indicator + .ccjmne--google-search-hotkeys--number-indicator { display: none; }`);
-addStyle(`#ccjmne--google-search-hotkeys--indicator, .ccjmne--google-search-hotkeys--number-indicator { cursor: help; }`);
-
-addStyle(`#ccjmne--google-search-hotkeys--tooltip { display: flex; align-items: center; position: absolute; top: 0; left: -.5em; height: 30px; padding: 0 1em; font-family: sans-serif; font-size: 13px; white-space: nowrap; border: 1px solid slategrey; border-radius: 10px 0 10px 10px; background-color: white; color: slategrey; transition: box-shadow .2s ease-out; }`);
-addStyle(`#ccjmne--google-search-hotkeys--tooltip:hover, #ccjmne--google-search-hotkeys--tooltip:active { border-color: darkslategrey; color: darkslategrey; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }`);
-addStyle(`#ccjmne--google-search-hotkeys--tooltip:active { background-color: whitesmoke; }`);
-addStyle(`#ccjmne--google-search-hotkeys--tooltip::before { content: "What's this?" }`);
-
-addStyle(`#ccjmne--google-search-hotkeys--backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 999; background-color: rgba(0, 0, 0, .35); }`);
-addStyle(`#ccjmne--google-search-hotkeys--anchor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); perspective: 1000px; }`);
-addStyle(`#ccjmne--google-search-hotkeys--tilt-origin { transform-style: preserve-3d; transition: transform .2s ease-out; }`);
-addStyle(`#ccjmne--google-search-hotkeys--tilt-origin:hover #ccjmne--google-search-hotkeys--help-shadow { opacity: .5 }`);
-addStyle(`#ccjmne--google-search-hotkeys--tilt-origin:hover #ccjmne--google-search-hotkeys--help-card { box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-shadow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 5px; background-color: slategrey; transform: scale(1.7) translateZ(-650px); opacity: 0; transition: opacity .2s ease-out; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card-container { perspective: 2000px; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card { overflow: hidden; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 3px; font-size: 16px; background-color: ghostwhite; color: #444; transition: box-shadow .2s ease-out; }`);
-
-addStyle(`#ccjmne--google-search-hotkeys--help-card-title { display: flex; align-items: center; justify-content: space-evenly; padding: 2vh 2vw; border-bottom: 1px solid crimson; font-size: 18px; background-color: slategrey; color: ghostwhite; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table { border-collapse: collapse; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr:nth-child(2n) { background-color: rgba(0, 0, 0, .1); }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table:last-child tr:last-child td { border-bottom: 2vh solid ghostwhite; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr:hover { background-color: #9aa6b1; color: black; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr:hover kbd { color: crimson; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr.ccjmne--google-search-hotkeys--new-section td { border-top: 2vh solid ghostwhite; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr td { padding: .3em 0 .3em 2vw; white-space: nowrap; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card table tr td:last-child { padding-right: 2vw; text-align: right; }`);
-
-addStyle(`#ccjmne--google-search-hotkeys--help-card a, #ccjmne--google-search-hotkeys--help-card a:visited { color: ghostwhite; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card em { color: crimson; font-weight: normal; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card kbd { display: inline-block; padding: .1em .6em; box-shadow: 0 1px 0px rgba(0, 0, 0, .2); border: 1px solid #ccc; border-radius: 3px; font-family: monospace; white-space: nowrap; background-color: ghostwhite; cursor: default; }`);
-addStyle(`#ccjmne--google-search-hotkeys--help-card kbd:empty { display: none; }`);
