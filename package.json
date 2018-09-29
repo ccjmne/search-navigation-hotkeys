@@ -1,0 +1,29 @@
+{
+  "name": "google-search-hotkeys",
+  "version": "1.0.0-beta.0",
+  "description": "Navigate results from Google searches without ever lifting your hands off the keyboard!",
+  "author": "Eric NICOLAS <ccjmne@gmail.com> (https://github.com/ccjmne)",
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccjmne/google-search-hotkeys.git"
+  },
+  "keywords": [
+    "Google",
+    "Search",
+    "Hotkeys",
+    "Results",
+    "Links",
+    "Browse",
+    "Shortcuts",
+    "Keyboard"
+  ],
+  "bugs": {
+    "url": "https://github.com/ccjmne/google-search-hotkeys/issues"
+  },
+  "homepage": "https://github.com/ccjmne/google-search-hotkeys#readme"
+}
