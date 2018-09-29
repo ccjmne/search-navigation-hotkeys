@@ -8,6 +8,10 @@
   left: -1.5em;
   color: $colour-accent;
   font-size: 18px;
+
+  &::before {
+    content: '▶';
+  }
 }
 
 .ccjmne--google-search-hotkeys--number-indicator {
