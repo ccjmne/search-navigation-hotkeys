@@ -54,7 +54,7 @@ onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (n
       result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
       indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
     })(this.results[idx])
-  });
+  }, (nav => ({ prev: nav[nav.indexOf(null) - 1], next: nav[nav.indexOf(null) + 1] }))([].map.call(document.querySelectorAll('#foot table td:not(.navend)'), x => x.querySelector('a'))));
 
   this.results.forEach((result, idx) => {
     Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
@@ -79,9 +79,9 @@ onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (n
       /* slash     -> search input
        * shift-?   -> show help       */
       e => e.shiftKey ? toggleHelp(true) : this.focus(-1),
-    37: /* left    -> previous page   */ () => window.location.replace(updateUrlParameter('start', Math.max(parseInt(getUrlParameter('start') || '0') - this.results.length, 0))),
+    37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
     38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
-    39: /* right   -> next page       */ () => window.location.replace(updateUrlParameter('start', parseInt(getUrlParameter('start') || '0') + this.results.length)),
+    39: /* right   -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
     40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
   });
 }).bind({}));
