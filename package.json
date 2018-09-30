@@ -1,6 +1,6 @@
 {
   "name": "google-search-hotkeys",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "Navigate results from Google searches without ever lifting your hands off the keyboard!",
   "author": "Eric NICOLAS <ccjmne@gmail.com> (https://github.com/ccjmne)",
   "license": "GPL-3.0",
