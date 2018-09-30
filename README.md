@@ -24,6 +24,9 @@ Navigate results from Google searches without ever lifting your hands off the ke
 
 ## TODO
 
--   [ ] Write up a dramatic introduction story ranting about how daunting reaching the mouse is
 -   [ ] Include a `no-help` build w/ each release
 -   [ ] Complete README w/ pictures and animated gifs
+-   [ ] Add hotkeys for filtering/sorting
+-   [ ] Contribution guidelines (CONTRIBUTE.md)
+-   [ ] Ensure no copyright or trademark is violated
+-   [ ] Make it into an actual Extension for (customizable shortcuts, Chrome's Omnibox "I'm feeling Lucky" search engine, open in background)...
