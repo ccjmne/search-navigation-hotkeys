@@ -42,7 +42,7 @@ module.exports = {
         author: p.author,
         namespace: p.homepage,
         include: '*://www.google.tld/search*',
-        downloadURL: 'https://github.com/ccjmne/google-search-hotkeys/master/dist/main.js',
+        downloadURL: 'https://raw.githubusercontent.com/ccjmne/google-search-hotkeys/master/dist/main.js',
         grant: 'none'
       })
     })
