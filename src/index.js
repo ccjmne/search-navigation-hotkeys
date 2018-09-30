@@ -39,8 +39,10 @@ document.body.onkeydown = (e => {
 });
 
 // Once results are listed, additionally handle browsing them
-onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (nodes) {
+onceSome('#search .r > a:first-of-type').then((function (nodes) {
   Object.assign(this, {
+    prev: document.querySelector('a.pn#pnprev'),
+    next: document.querySelector('a.pn#pnnext'),
     cur: nodes.length > 0 ? 0 : -1,
     results: [].map.call(nodes, x => ({ container: x.parentNode.parentNode, link: x.closest('a') })),
     go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
@@ -54,7 +56,7 @@ onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (n
       result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
       indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
     })(this.results[idx])
-  }, (nav => ({ prev: nav[nav.indexOf(null) - 1], next: nav[nav.indexOf(null) + 1] }))([].map.call(document.querySelectorAll('#foot table td:not(.navend)'), x => x.querySelector('a'))));
+  });
 
   this.results.forEach((result, idx) => {
     Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
