@@ -15,7 +15,7 @@ const opsMap = {
 
 document.body.onkeydown = (e => {
   /*
-   * Don't mess with typing into the Search field, or w/ Ctrl and Shift keys, unless:
+   * Don't mess with typing into any input-able element; or w/ Ctrl and Shift keys, unless:
    *   Ctrl-Space                   (32)
    *   Ctrl-Shift-Space             (32)
    *   Ctrl-ArrowUp                 (38)      -> to allow browsing up while maintainting Ctrl and/or Shift
@@ -24,7 +24,7 @@ document.body.onkeydown = (e => {
    *   Ctrl-[Numpad1..Numpad9]      (97..105)
    *   Shift-?                      (191)
    */
-  if (e.srcElement === document.querySelector('input[title=Search]') ||
+  if (e.srcElement.matches(['input', 'select', 'textarea']) ||
     (e.shiftKey && !~[32, 38, 40, 191].indexOf(e.keyCode)) ||
     (e.ctrlKey && !~[32, 38, 40].concat([...Array(9).keys()].map(x => 49 + x)).concat([...Array(9).keys()].map(x => 97 + x)).indexOf(e.keyCode))) {
     return;
