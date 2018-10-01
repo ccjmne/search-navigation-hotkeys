@@ -17,8 +17,9 @@
 .ccjmne--google-search-hotkeys--number-indicator {
   position: absolute;
   left: -1.5em;
-  transform: translate(-100%, 20%);
+  transform: translate(-100%, 15%);
   font-family: monospace;
+  font-size: .7em;
 
   @at-root #ccjmne--google-search-hotkeys--indicator + & {
     display: none;
