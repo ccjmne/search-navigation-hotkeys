@@ -39,51 +39,53 @@ document.body.onkeydown = (e => {
 });
 
 // Once results are listed, additionally handle browsing them
-onceSome('#search .r > a:first-of-type').then((function (nodes) {
-  Object.assign(this, {
-    prev: document.querySelector('a.pn#pnprev'),
-    next: document.querySelector('a.pn#pnnext'),
-    cur: nodes.length > 0 ? 0 : -1,
-    results: [].map.call(nodes, x => ({ container: x.parentNode.parentNode, link: x.closest('a') })),
-    go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
-    focus: idx => (this.cur = idx) === -1 ? (input => {
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-      indicator.detach();
-    })(document.querySelector('input[title=Search]')) : (result => {
-      result.link.focus();
-      result.container.prepend(indicator);
-      result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-      indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
-    })(this.results[idx])
-  });
+onceSome(['#search .r > a', '#search .r > g-link > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
+  .then(nodes => [].filter.call(nodes, x => !x.closest('g-scrolling-carousel'))) // exclude carousel results
+  .then((function (nodes) {
+    Object.assign(this, {
+      prev: document.querySelector('a.pn#pnprev'),
+      next: document.querySelector('a.pn#pnnext'),
+      cur: nodes.length > 0 ? 0 : -1,
+      results: nodes.map(x => ({ container: x.querySelector('h3') || x.closest('h3'), link: x.closest('a') })),
+      go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
+      focus: idx => (this.cur = idx) === -1 ? (input => {
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+        indicator.detach();
+      })(document.querySelector('input[title=Search]')) : (result => {
+        result.link.focus();
+        result.container.prepend(indicator);
+        result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
+      })(this.results[idx])
+    });
 
-  this.results.forEach((result, idx) => {
-    Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
-    const numberIndicator = create({ classes: ['ccjmne--google-search-hotkeys--number-indicator'], contents: idx + 1 });
-    numberIndicator.addEventListener('mouseenter', tooltip.reveal);
-    result.container.prepend(numberIndicator);
-  });
+    this.results.forEach((result, idx) => {
+      Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
+      const numberIndicator = create({ classes: ['ccjmne--google-search-hotkeys--number-indicator'], contents: idx + 1 });
+      numberIndicator.addEventListener('mouseenter', tooltip.reveal);
+      result.container.prepend(numberIndicator);
+    });
 
-  this.focus(this.cur);
+    this.focus(this.cur);
 
-  // 1 through 9 on the numbers row and/or on the numeric pad -> follow corresponding result
-  [...Array(9).keys()].forEach(x => (op => Object.assign(opsMap, {
-    [49 + x]: op,
-    [97 + x]: op
-  }))(e => {
-    this.focus(x);
-    this.go(e);
-  }));
-  Object.assign(opsMap, {
-    32: /* space   -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
-    191:
-      /* slash     -> search input
-       * shift-?   -> show help       */
-      e => e.shiftKey ? toggleHelp(true) : this.focus(-1),
-    37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
-    38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
-    39: /* right   -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
-    40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
-  });
-}).bind({}));
+    // 1 through 9 on the numbers row and/or on the numeric pad -> follow corresponding result
+    [...Array(9).keys()].forEach(x => (op => Object.assign(opsMap, {
+      [49 + x]: op,
+      [97 + x]: op
+    }))(e => {
+      this.focus(x);
+      this.go(e);
+    }));
+    Object.assign(opsMap, {
+      32: /* space   -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
+      191:
+        /* slash     -> search input
+         * shift-?   -> show help       */
+        e => e.shiftKey ? toggleHelp(true) : this.focus(-1),
+      37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
+      38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
+      39: /* right   -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
+      40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
+    });
+  }).bind({}));
