@@ -45,7 +45,8 @@ document.body.onkeydown = (e => {
 
 // Once results are listed, additionally handle browsing them
 onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
-  .then(nodes => nodes.filter(x => !x.closest('g-scrolling-carousel'))) // exclude carousel results
+  .then(nodes => nodes.filter(e => !e.closest(['g-scrolling-carousel', 'g-accordion-expander']))) // exclude carousel and 'people also ask' results
+  .then(nodes => nodes.filter(e => e.offsetParent !== null)) // exclude invisible elements – e.g.: ads hidden by an ad-blocker (see https://stackoverflow.com/a/21696585)
   .then((function (nodes) {
     Object.assign(this, {
       prev: document.querySelector('a.pn#pnprev'),
