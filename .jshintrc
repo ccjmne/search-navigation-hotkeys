@@ -19,5 +19,6 @@
   "trailing": true,
   "smarttabs": true,
   "-W008": false,
-  "-W016": false
+  "-W016": false,
+  "-W018": false
 }
