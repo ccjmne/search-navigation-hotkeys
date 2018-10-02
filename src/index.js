@@ -20,7 +20,9 @@ document.body.onkeydown = (e => {
    *   Ctrl-Space                   (32)
    *   Ctrl-Shift-Space             (32)
    *   Ctrl-ArrowUp                 (38)      -> to allow browsing up while maintainting Ctrl and/or Shift
+   *   Ctrl-j                       (74)      -> to allow browsing up while maintainting Ctrl and/or Shift
    *   Ctrl-ArrowDown               (40)      -> to allow browsing down while maintainting Ctrl and/or Shift
+   *   Ctrl-k                       (75)      -> to allow browsing down while maintainting Ctrl and/or Shift
    *   Ctrl-[1..9]                  (49..57)
    *   Ctrl-[Numpad1..Numpad9]      (97..105)
    *   Shift-?                      (191)
@@ -33,10 +35,11 @@ document.body.onkeydown = (e => {
   }
 
   // Results browsing only supported on 'All', 'Videos' and 'News' tabs
-  if (~([37, 38, 39, 40].indexOf(e.keyCode)) && !~([undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm')))) {
+  if (~[37, 38, 39, 40, 72, 74, 75, 76].indexOf(e.keyCode) && !~[undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm'))) {
     return;
   }
 
+  // TODO: have another ops map for non-results browsing (i.e.: switch tabs, show help, focus search, toggle filter/sort mode...)
   (op => typeof op === 'function' && Promise.resolve(op(e)).then(() => e.preventDefault()))(opsMap[e.keyCode]);
 });
 
@@ -89,6 +92,10 @@ onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a',
       37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
       38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
       39: /* right   -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
-      40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
+      40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length),
+      72: /* h       -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
+      74: /* j       -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
+      75: /* k       -> next result     */ () => this.focus(++this.cur % this.results.length),
+      76: /* l       -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click'))
     });
   }).bind({}));
