@@ -40,7 +40,7 @@ document.body.onkeydown = (e => {
 
 // Once results are listed, additionally handle browsing them
 onceSome(['#search .r > a', '#search .r > g-link > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
-  .then(nodes => [].filter.call(nodes, x => !x.closest('g-scrolling-carousel'))) // exclude carousel results
+  .then(nodes => nodes.filter(x => !x.closest('g-scrolling-carousel'))) // exclude carousel results
   .then((function (nodes) {
     Object.assign(this, {
       prev: document.querySelector('a.pn#pnprev'),

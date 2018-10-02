@@ -1,12 +1,13 @@
 'use strict';
 
-module.exports = function onceSome(selector) {
+export function onceAny(selector) {
   return new Promise(resolve => {
-    const _ = setInterval(() => {
-      if (document.querySelectorAll(selector).length > 0) {
-        clearInterval(_);
-        resolve(document.querySelectorAll(selector));
-      }
-    }, 100);
+    const _ = setInterval(() => (e => e && resolve(e) && clearInterval(_))(document.querySelector(selector)), 100);
   });
-};
+}
+
+export function onceSome(selector) {
+  return new Promise(resolve => {
+    const _ = setInterval(() => (e => e.length > 0 && resolve([].slice.call(e)) && clearInterval(_))(document.querySelectorAll(selector)), 100);
+  });
+}
