@@ -41,7 +41,7 @@ document.body.onkeydown = (e => {
 });
 
 // Once results are listed, additionally handle browsing them
-onceSome(['#search .r > a', '#search .r > g-link > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
+onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
   .then(nodes => nodes.filter(x => !x.closest('g-scrolling-carousel'))) // exclude carousel results
   .then((function (nodes) {
     Object.assign(this, {
@@ -84,7 +84,7 @@ onceSome(['#search .r > a', '#search .r > g-link > a', '.ads-ad h3 > a:not(:empt
       191:
         /* slash     -> focus search input
          * ctrl-/    -> enter filter-and-sort mode
-         * shift-?   -> show help    */
+         * shift-?   -> show help       */
         e => e.ctrlKey ? toggleFilter(true) : e.shiftKey ? toggleHelp(true) : this.focus(-1),
       37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
       38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
