@@ -21,8 +21,9 @@
   }
 
   kbd {
-    display: inline-block;
+    display: inline-flex;
     padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
+    overflow: hidden;
     border: 1px solid nth($dark, 3);
     border-radius: 3px;
     background-color: nth($light, 2);
@@ -31,8 +32,11 @@
     white-space: nowrap;
     cursor: default;
 
-    &:empty {
-      display: none;
+    .kbd-addon {
+      margin: -#{map-get($spacing-h, tight-em)} -#{map-get($spacing-w, tight-em)} -#{map-get($spacing-h, tight-em)} map-get($spacing-w, tight-em);
+      padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
+      border-left: 1px solid nth($dark, 3);
+      background-color: fade-out(nth($dark, 1), .9);
     }
   }
 

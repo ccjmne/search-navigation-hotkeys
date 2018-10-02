@@ -9,6 +9,9 @@ export const helpCard = create({ id: 'ccjmne--google-search-hotkeys--help-card',
     </div>
     <table></table>` });
 
+const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ' };
+const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃', Shift: '⇧', Space: '⎵', Enter: '↲' };
+
 const table = helpCard.querySelector('table');
 
 [
@@ -38,6 +41,9 @@ const table = helpCard.querySelector('table');
   ]
 ].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne--google-search-hotkeys--new-section'] : [], contents: `
     <td>${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
-    <td><kbd>${op.hotkey.replace(/[[\]+|-]|\.\./g, s => `</kbd>${ { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ' }[s] }<kbd>`)}</kbd></td>` }))));
+    <td>${ op.hotkey
+      /* tokenise  */.split(new RegExp((s => `(?=${s})|(?<=${s})`)(Object.keys(metaChars).map(k => k.replace(/./g, x => `\\${ x }`)).join('|'))))
+      /* transform */.map(s => metaChars[s] || `<kbd>${ s }${ addons[s] ? `<span class="kbd-addon">${ addons[s] }</span>` : '' }</kbd>`)
+      /* wrap up   */.join('') }</td>` }))));
 
 helpCard.addEventListener('click', e => e.stopPropagation());
