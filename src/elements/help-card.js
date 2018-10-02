@@ -32,6 +32,7 @@ const table = helpCard.querySelector('table');
     { desc: `Search [news]`, hotkey: `n` }
   ],
   [
+    { desc: `Enter [filter/sort] mode`, hotkey: `Ctrl-/` },
     { desc: `[Show] help`, hotkey: `Shift-?` },
     { desc: `[Close] help`, hotkey: `Escape` }
   ]
