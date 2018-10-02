@@ -2,6 +2,7 @@
 
 import { create, onceSome, getUrlParameter, updateUrlParameter } from './utils/module';
 import { tooltip, indicator, toggleHelp } from './elements/module';
+import { toggleFilter } from './modules/filter-and-sort';
 require('./styles/module.scss');
 
 const opsMap = {
@@ -23,10 +24,11 @@ document.body.onkeydown = (e => {
    *   Ctrl-[1..9]                  (49..57)
    *   Ctrl-[Numpad1..Numpad9]      (97..105)
    *   Shift-?                      (191)
+   *   Ctrl-/                       (191)
    */
   if (e.srcElement.matches(['input', 'select', 'textarea']) || e.altKey ||
     (e.shiftKey && !~[32, 38, 40, 191].indexOf(e.keyCode)) ||
-    (e.ctrlKey && !~[32, 38, 40].concat([...Array(9).keys()].map(x => 49 + x)).concat([...Array(9).keys()].map(x => 97 + x)).indexOf(e.keyCode))) {
+    (e.ctrlKey && !~[32, 38, 40, 191].concat(...[...Array(9).keys()].map(x => [49 + x, 97 + x])).indexOf(e.keyCode))) {
     return;
   }
 
@@ -80,9 +82,10 @@ onceSome(['#search .r > a', '#search .r > g-link > a', '.ads-ad h3 > a:not(:empt
     Object.assign(opsMap, {
       32: /* space   -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
       191:
-        /* slash     -> search input
-         * shift-?   -> show help       */
-        e => e.shiftKey ? toggleHelp(true) : this.focus(-1),
+        /* slash     -> focus search input
+         * ctrl-/    -> enter filter-and-sort mode
+         * shift-?   -> show help    */
+        e => e.ctrlKey ? toggleFilter(true) : e.shiftKey ? toggleHelp(true) : this.focus(-1),
       37: /* left    -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
       38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
       39: /* right   -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),

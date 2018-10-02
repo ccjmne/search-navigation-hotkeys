@@ -1,0 +1,8 @@
+// scss-lint:disable SelectorFormat
+
+#hdtbMenus .hdtb-mn-o .hdtbItm > a,
+#hdtbMenus .hdtb-mn-o :not(input)[tabindex] {
+  &:focus {
+    background-color: fade-out(nth($dark, 1), .9);
+  }
+}
