@@ -23,8 +23,7 @@ $spacing-w: (
 );
 
 @import './colours';
-@import './indicators';
-@import './tooltips';
-
-@import './overlay-layout';
 @import './help-card';
+@import './indicators';
+@import './overlay-layout';
+@import './tooltips';
