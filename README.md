@@ -19,6 +19,7 @@ Navigate results from Google searches without ever lifting your hands off the ke
 | Search <strong>videos</strong>                                              |                                             <kbd>v</kbd> |
 | Search <strong>images</strong>                                              |                                             <kbd>i</kbd> |
 | Search <strong>news</strong>                                                |                                             <kbd>n</kbd> |
+| Enter <strong>filter/sort</strong> mode                                     |                           <kbd>Ctrl</kbd> + <kbd>/</kbd> |
 | <strong>Show</strong> help                                                  |                          <kbd>Shift</kbd> + <kbd>?</kbd> |
 | <strong>Close</strong> help                                                 |                                        <kbd>Escape</kbd> |
 
@@ -26,7 +27,9 @@ Navigate results from Google searches without ever lifting your hands off the ke
 
 -   [ ] Include a `no-help` build w/ each release
 -   [ ] Complete README w/ pictures and animated gifs
--   [ ] Add hotkeys for filtering/sorting
+-   [ ] Add hotkeys for filtering/sorting  
+  -   [ ] Add special help card when in filter/sort mode
+  -   [ ] `this.focus(this.cur)` when exiting filter/sort mode
 -   [ ] Contribution guidelines (CONTRIBUTE.md)
 -   [ ] Ensure no copyright or trademark is violated
 -   [ ] Make it into an actual Extension for (customizable shortcuts, Chrome's Omnibox "I'm feeling Lucky" search engine, open in background)...
