@@ -30,7 +30,7 @@ Promise.all([onceAny(selectors.root), onceSome(`${ selectors.root } ${ selectors
       }
     }
 
-    if (~[13, 27, 32, 37, 38, 39, 40].indexOf(e.which)) {
+    if (~[13, 27, 32, 37, 38, 39, 40, 72, 74, 75, 76].indexOf(e.which)) {
       const focused = root.querySelector(selectors.options.map(s => `${ s }:focus`)),
         options = [].slice.apply(root.querySelectorAll(selectors.options)),
         curMenu = (openedMenu => openedMenu ? menus.indexOf(openedMenu.previousElementSibling) : 0)(root.querySelector(`.hdtb-mn-o`)),
@@ -43,7 +43,11 @@ Promise.all([onceAny(selectors.root), onceSome(`${ selectors.root } ${ selectors
         37: /* left   */ () => menus[curMenu > 0 ? curMenu - 1 : menus.length - 1].click(),
         38: /* up     */ () => options[(cur > 0 ? cur - 1 : options.length - 1)].focus(),
         39: /* right  */ () => menus[(curMenu + 1) % menus.length].click(),
-        40: /* down   */ () => options[(cur + 1) % options.length].focus()
+        40: /* down   */ () => options[(cur + 1) % options.length].focus(),
+        72: /* h      */ () => menus[curMenu > 0 ? curMenu - 1 : menus.length - 1].click(),
+        74: /* j      */ () => options[(cur > 0 ? cur - 1 : options.length - 1)].focus(),
+        75: /* k      */ () => options[(cur + 1) % options.length].focus(),
+        76: /* l      */ () => menus[(curMenu + 1) % menus.length].click()
       })[e.which]();
 
       e.stopPropagation();
