@@ -13,10 +13,10 @@ const table = helpCard.querySelector('table');
 
 [
   [
-    { desc: `Focus [next] result`, hotkey: `Down` },
-    { desc: `Focus [previous] result`, hotkey: `Up` },
-    { desc: `Navigate to [next] page`, hotkey: `Right` },
-    { desc: `Navigate to [previous] page`, hotkey: `Left` }
+    { desc: `Focus [previous] result`, hotkey: `Up|j` },
+    { desc: `Focus [next] result`, hotkey: `Down|k` },
+    { desc: `Navigate to [previous] page`, hotkey: `Left|h` },
+    { desc: `Navigate to [next] page`, hotkey: `Right|l` }
   ],
   [
     { desc: `[Open] focused`, hotkey: `Space|Enter` },
