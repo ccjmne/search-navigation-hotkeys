@@ -1,15 +1,25 @@
-#ccjmne--google-search-hotkeys--help-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
-  border-bottom: 1px solid $colour-accent;
-  background-color: $colour-primary;
-  color: nth($light, 2);
-  font-size: 18px;
-}
 
 #ccjmne--google-search-hotkeys--help-card {
+  transition: box-shadow map-get($durations, regular) ease-out;
+  border-radius: 3px;
+  background-color: nth($light, 2);
+  box-shadow: nth($shadow, 2);
+  color: nth($dark, 2);
+  font-size: 16px;
+  user-select: none;
+
+  #ccjmne--google-search-hotkeys--help-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
+    border-bottom: 1px solid $colour-accent;
+    border-radius: 3px 3px 0 0;
+    background-color: $colour-primary;
+    color: nth($light, 2);
+    font-size: 18px;
+  }
+
   a,
   a:visited {
     color: nth($light, 2);
@@ -48,13 +58,24 @@
     }
 
     tr {
+      background-color: nth($light, 2);
+
       &:nth-child(2n) {
-        background-color: fade-out(nth($dark, 1), .9);
+        background-color: mix($colour-primary, nth($light, 2), 20%);
       }
 
       &:hover {
-        background-color: fade-out($colour-primary, .5);
+        background-color: mix($colour-primary, nth($light, 2), 50%);
         color: nth($dark, 1);
+
+        td::before {
+          visibility: visible;
+          left: -#{map-get($spacing-w, comfortable)};
+        }
+
+        td:last-child::before {
+          left: map-get($spacing-w, comfortable);
+        }
 
         kbd {
           color: $colour-accent;
@@ -66,12 +87,29 @@
       }
 
       td {
+        position: relative;
         padding: map-get($spacing-h, tight-em) 0 map-get($spacing-h, tight-em) map-get($spacing-w, comfortable);
         white-space: nowrap;
 
         &:last-child {
           padding-right: map-get($spacing-w, comfortable);
           text-align: right;
+        }
+
+        &::before {
+          content: '';
+          visibility: hidden;
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          transition: all .1s ease-out;
+          border-radius: 3px;
+          background-color: desaturate($colour-accent, 30%);
+          box-shadow: nth($shadow, 2);
         }
       }
     }

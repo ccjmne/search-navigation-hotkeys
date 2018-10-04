@@ -42,14 +42,4 @@
 
 #ccjmne--google-search-hotkeys--help-card-container {
   perspective: 2000px;
-
-  #ccjmne--google-search-hotkeys--help-card {
-    overflow: hidden;
-    transition: box-shadow map-get($durations, regular) ease-out;
-    border-radius: 3px;
-    background-color: nth($light, 2);
-    box-shadow: nth($shadow, 2);
-    color: nth($dark, 2);
-    font-size: 16px;
-  }
 }
