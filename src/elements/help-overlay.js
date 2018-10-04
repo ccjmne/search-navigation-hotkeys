@@ -33,3 +33,14 @@ tiltOrigin.addEventListener('mousemove', throttle(e => {
   const amplitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Math.max(helpCard.clientWidth, helpCard.clientHeight);
   tiltOrigin.style.transform = `rotate3d(${ Math.round(y) }, ${ -Math.round(x) }, 0, ${ amplitude * 10 }deg)`;
 }, 100));
+
+(click => {
+  helpCard.addEventListener('mousedown', () => click.down());
+  helpCard.addEventListener('mouseup', () => click.up());
+  helpCard.addEventListener('mouseleave', () => click.up());
+})({
+  isDown: false,
+  transform: ['scale(1)', 'scale(.95)'],
+  down: function () { this.isDown = this.isDown || helpCard.animate({ transform: this.transform }, { duration: 100, fill: 'forwards', easing: 'ease-out' }); },
+  up: function () { this.isDown = this.isDown && (helpCard.animate({ transform: [...this.transform].reverse() }, { duration: 300, fill: 'forwards', easing: 'cubic-bezier(.25, 2.5, .25, .5)' }), false); }
+});
