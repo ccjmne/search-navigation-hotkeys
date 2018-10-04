@@ -44,7 +44,7 @@ document.body.onkeydown = (e => {
 });
 
 // Once results are listed, additionally handle browsing them
-onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3'])
+onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3']) // #res h3, .ads-ad h3 maybe?
   .then(nodes => nodes.filter(e => !e.closest(['g-scrolling-carousel', 'g-accordion-expander']))) // exclude carousel and 'people also ask' results
   .then(nodes => nodes.filter(e => e.offsetParent !== null)) // exclude invisible elements – e.g.: ads hidden by an ad-blocker (see https://stackoverflow.com/a/21696585)
   .then((function (nodes) {
@@ -52,7 +52,7 @@ onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a',
       prev: document.querySelector('a.pn#pnprev'),
       next: document.querySelector('a.pn#pnnext'),
       cur: nodes.length > 0 ? 0 : -1,
-      results: nodes.map(x => ({ container: x.querySelector('h3') || x.closest('h3'), link: x.closest('a') })),
+      results: nodes.map(x => ({ container: x.closest(['.r', 'li.ads-ad', '.ads-ad li']), palette: x.querySelector('h3') || x.closest('h3'), link: x.closest('a') })),
       go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
       focus: idx => (this.cur = idx) === -1 ? (input => {
         input.focus();
@@ -67,8 +67,8 @@ onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a',
     });
 
     this.results.forEach((result, idx) => {
-      Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
       const numberIndicator = create({ classes: ['ccjmne--google-search-hotkeys--number-indicator'], contents: idx + 1 });
+      numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
       numberIndicator.addEventListener('mouseenter', tooltip.reveal);
       result.container.prepend(numberIndicator);
     });
@@ -79,10 +79,7 @@ onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a',
     [...Array(9).keys()].forEach(x => (op => Object.assign(opsMap, {
       [49 + x]: op,
       [97 + x]: op
-    }))(e => {
-      this.focus(x);
-      this.go(e);
-    }));
+    }))(e => (this.focus(x), this.go(e))));
     Object.assign(opsMap, {
       32: /* space   -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
       191:

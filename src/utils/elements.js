@@ -12,5 +12,6 @@ export function create({ type = 'div', id = '', classes = [], contents = '' }) {
   e.classList.add(...classes);
   e.innerHTML = contents;
   e.detach = detach.bind(e, e);
+  e.pickStylesFrom = (from, props) => Object.assign(e.style, ((s) => props.reduce((acc, p) => ({ ...acc, [p]: s[p] }), {}))(window.getComputedStyle(from))); // jshint ignore: line
   return e;
 }

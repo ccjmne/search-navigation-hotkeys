@@ -1,11 +1,11 @@
 #ccjmne--google-search-hotkeys--indicator,
 .ccjmne--google-search-hotkeys--number-indicator {
+  position: absolute;
+  left: -1.5em;
   cursor: help;
 }
 
 #ccjmne--google-search-hotkeys--indicator {
-  position: absolute;
-  left: -1.5em;
   color: $colour-accent;
   font-size: 18px;
 
@@ -15,11 +15,10 @@
 }
 
 .ccjmne--google-search-hotkeys--number-indicator {
-  position: absolute;
-  left: -1.5em;
-  transform: translate(-100%, 15%);
+  transform: translateX(-100%);
+  color: nth($dark, 2);
   font-family: monospace;
-  font-size: .7em;
+  font-size: 12px;
 
   @at-root #ccjmne--google-search-hotkeys--indicator + & {
     display: none;
