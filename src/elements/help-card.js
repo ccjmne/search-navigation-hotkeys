@@ -2,8 +2,8 @@
 
 import { create } from '../utils/module';
 
-export const helpCard = create({ id: 'ccjmne--google-search-hotkeys--help-card', contents: `
-    <div id="ccjmne--google-search-hotkeys--help-card-title">
+export const helpCard = create({ id: 'ccjmne-gsh-help-card', contents: `
+    <div id="ccjmne-gsh-help-card-title">
         <span>Google Search Hotkeys</span>
         <small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small>
     </div>
@@ -39,7 +39,7 @@ const table = helpCard.querySelector('table');
     { desc: `[Show] help`, hotkey: `Shift-?` },
     { desc: `[Close] help`, hotkey: `Escape` }
   ]
-].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne--google-search-hotkeys--new-section'] : [], contents: `
+].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-gsh-new-section'] : [], contents: `
     <td>${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
     <td>${ op.hotkey
       /* tokenise  */.split(new RegExp((s => `(?=${s})|(?<=${s})`)(Object.keys(metaChars).map(k => k.replace(/./g, x => `\\${ x }`)).join('|'))))

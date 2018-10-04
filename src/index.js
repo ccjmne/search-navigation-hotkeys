@@ -67,7 +67,7 @@ onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a',
     });
 
     this.results.forEach((result, idx) => {
-      const numberIndicator = create({ classes: ['ccjmne--google-search-hotkeys--number-indicator'], contents: idx + 1 });
+      const numberIndicator = create({ classes: ['ccjmne-gsh-number-indicator'], contents: idx + 1 });
       numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
       numberIndicator.addEventListener('mouseenter', tooltip.reveal);
       result.container.prepend(numberIndicator);

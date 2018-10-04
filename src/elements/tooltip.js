@@ -2,7 +2,7 @@
 
 import { create } from '../utils/module';
 
-export const tooltip = create({ id: 'ccjmne--google-search-hotkeys--tooltip' });
+export const tooltip = create({ id: 'ccjmne-gsh-tooltip' });
 
 Object.assign(tooltip, {
   concealTimer: null,

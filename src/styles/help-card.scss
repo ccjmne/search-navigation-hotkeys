@@ -1,5 +1,5 @@
 
-#ccjmne--google-search-hotkeys--help-card {
+#ccjmne-gsh-help-card {
   transition: box-shadow map-get($durations, regular) ease-out;
   border-radius: 3px;
   background-color: nth($light, 2);
@@ -8,7 +8,7 @@
   font-size: 16px;
   user-select: none;
 
-  #ccjmne--google-search-hotkeys--help-card-title {
+  #ccjmne-gsh-help-card-title {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -82,7 +82,7 @@
         }
       }
 
-      &.ccjmne--google-search-hotkeys--new-section td {
+      &.ccjmne-gsh-new-section td {
         border-top: map-get($spacing-h, comfortable) solid nth($light, 2);
       }
 

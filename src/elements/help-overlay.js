@@ -3,12 +3,12 @@
 import { create, throttle } from '../utils/module';
 import { helpCard } from './help-card';
 
-const backdrop = create({ id: 'ccjmne--google-search-hotkeys--backdrop', contents: `
-    <div id="ccjmne--google-search-hotkeys--tilt-origin">
-        <div id="ccjmne--google-search-hotkeys--help-shadow"></div>
-        <div id="ccjmne--google-search-hotkeys--help-card-container"></div>
+const backdrop = create({ id: 'ccjmne-gsh-backdrop', contents: `
+    <div id="ccjmne-gsh-tilt-origin">
+        <div id="ccjmne-gsh-help-shadow"></div>
+        <div id="ccjmne-gsh-help-card-container"></div>
     </div>` }),
-  tiltOrigin = backdrop.querySelector('#ccjmne--google-search-hotkeys--tilt-origin');
+  tiltOrigin = backdrop.querySelector('#ccjmne-gsh-tilt-origin');
 
 export function toggleHelp(visible) {
   if (visible && !backdrop.parentNode) {
@@ -22,7 +22,7 @@ export function toggleHelp(visible) {
   }
 }
 
-backdrop.querySelector('#ccjmne--google-search-hotkeys--help-card-container').appendChild(helpCard);
+backdrop.querySelector('#ccjmne-gsh-help-card-container').appendChild(helpCard);
 backdrop.addEventListener('click', () => toggleHelp(false));
 
 tiltOrigin.addEventListener('mouseleave', () => (tiltOrigin.style.transform = ``));
