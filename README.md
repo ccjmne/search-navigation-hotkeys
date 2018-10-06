@@ -1,6 +1,6 @@
-# Google Search Hotkeys
+# Navigation Hotkeys for *Google™ search*
 
-Navigate results from Google searches without ever lifting your hands off the keyboard!
+Navigate results from *Google™ search* results without ever lifting your hands off the keyboard!
 
 ## Features
 
@@ -33,3 +33,9 @@ Navigate results from Google searches without ever lifting your hands off the ke
 -   [ ] Contribution guidelines (CONTRIBUTE.md)
 -   [ ] Ensure no copyright or trademark is violated
 -   [ ] Make it into an actual Extension for (customizable shortcuts, Chrome's Omnibox "I'm feeling Lucky" search engine, open in background)...
+
+## Trademark disclaimer
+
+*Google™ search* is a trademark of **Google LLC**.  
+
+This project is not affiliated with nor endorsed by **Google LLC**.

@@ -1,7 +1,7 @@
 {
-  "name": "google-search-hotkeys",
+  "name": "search-navigation-hotkeys",
   "version": "1.0.0",
-  "description": "Navigate results from Google searches without ever lifting your hands off the keyboard!",
+  "description": "Navigate results from Google™ search results without ever lifting your hands off the keyboard!",
   "author": "Eric NICOLAS <ccjmne@gmail.com> (https://github.com/ccjmne)",
   "license": "GPL-3.0",
   "main": "index.js",
@@ -11,22 +11,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ccjmne/google-search-hotkeys.git"
+    "url": "git+https://github.com/ccjmne/search-navigation-hotkeys.git"
   },
   "keywords": [
     "Google",
     "Search",
     "Hotkeys",
+    "Keyboard",
+    "Navigation",
     "Results",
     "Links",
     "Browse",
-    "Shortcuts",
-    "Keyboard"
+    "Shortcuts"
   ],
   "bugs": {
-    "url": "https://github.com/ccjmne/google-search-hotkeys/issues"
+    "url": "https://github.com/ccjmne/search-navigation-hotkeys/issues"
   },
-  "homepage": "https://github.com/ccjmne/google-search-hotkeys#readme",
+  "homepage": "https://github.com/ccjmne/search-navigation-hotkeys#readme",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",

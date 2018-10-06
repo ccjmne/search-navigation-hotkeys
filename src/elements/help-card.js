@@ -4,7 +4,7 @@ import { create } from '../utils/module';
 
 export const helpCard = create({ id: 'ccjmne-gsh-help-card', contents: `
     <div id="ccjmne-gsh-help-card-title">
-        <span>Google Search Hotkeys</span>
+        <span>Navigation Hotkeys for Google™ Search</span>
         <small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small>
     </div>
     <table></table>` });
