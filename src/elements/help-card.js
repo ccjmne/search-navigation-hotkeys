@@ -42,7 +42,7 @@ const table = helpCard.querySelector('table');
 ].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-gsh-new-section'] : [], contents: `
     <td>${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
     <td>${ op.hotkey
-      /* tokenise  */.split(new RegExp((s => `(?=${s})|(?<=${s})`)(Object.keys(metaChars).map(k => k.replace(/./g, x => `\\${ x }`)).join('|'))))
+      /* tokenise  */.split(new RegExp((s => `(?=${ s })|(?<=${ s })`)(Object.keys(metaChars).map(k => k.replace(/./g, c => '\\' + c)).join('|'))))
       /* transform */.map(s => metaChars[s] || `<kbd>${ s }${ addons[s] ? `<span class="kbd-addon">${ addons[s] }</span>` : '' }</kbd>`)
       /* wrap up   */.join('') }</td>` }))));
 
