@@ -11,6 +11,7 @@ const { resolve } = require('path'),
 const p = require('./package.json');
 
 module.exports = {
+  devtool : 'cheap-source-map',
   entry: {
     'content-script': resolve(src, 'index.js'),
     'background': resolve(src, 'background.js')
@@ -47,7 +48,7 @@ module.exports = {
   },
   plugins: [
     new ChromeExtensionReloader(),
-    new MiniCssExtractPlugin({ filename: "style.css" }),
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
     new CleanPlugin(),
     new CopyPlugin([{
       from: resolve(__dirname, 'manifest.json'),
