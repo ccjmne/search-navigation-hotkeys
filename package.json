@@ -6,9 +6,11 @@
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:extension",
+    "build": "npm run build:userscript && npm run build:extension",
+    "build:userscript": "webpack --mode production --config webpack.userscript.js",
     "build:extension": "webpack --mode production --config webpack.chrome-extension.js",
     "dev": "npm run dev:extension",
+    "dev:userscript": "webpack --mode development --config webpack.userscript.js --watch",
     "dev:extension": "set NODE_ENV=development&& webpack --mode development --config webpack.chrome-extension.js --watch"
   },
   "repository": {
