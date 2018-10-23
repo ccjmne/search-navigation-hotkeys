@@ -2,8 +2,8 @@
 
 import { create } from '../utils/module';
 
-export const helpCard = create({ id: 'ccjmne-gsh-help-card', contents: `
-    <div id="ccjmne-gsh-help-card-title">
+export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
+    <div id="ccjmne-snh-help-card-title">
         <span>Navigation Hotkeys for Google™ Search</span>
         <small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small>
     </div>
@@ -41,8 +41,8 @@ const table = helpCard.querySelector('table');
     { desc: `[Show] help`, hotkey: `?` },
     { desc: `[Close] help`, hotkey: `Escape` }
   ]
-].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-gsh-new-section'] : [], contents: `
-    <td>${ op.indent ? `<div class="ccjmne-gsh-indent ccjmne-gsh-indent-${ op.indent }"></div>` : '' }${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
+].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-snh-new-section'] : [], contents: `
+    <td>${ op.indent ? `<div class="ccjmne-snh-indent ccjmne-snh-indent-${ op.indent }"></div>` : '' }${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
     <td>${ op.hotkey
       /* tokenise  */.split(new RegExp((s => `(?=${ s })|(?<=${ s })`)(Object.keys(metaChars).map(k => k.replace(/./g, c => '\\' + c)).join('|'))))
       /* transform */.map(s => metaChars[s] || `<kbd>${ s }${ addons[s] ? `<span class="kbd-addon">${ addons[s] }</span>` : '' }</kbd>`)

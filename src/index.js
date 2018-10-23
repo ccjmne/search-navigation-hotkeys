@@ -63,7 +63,7 @@ onceAny('input[title=Search]').then(searchField => {
       });
 
       this.results.forEach((result, idx) => {
-        const numberIndicator = create({ classes: ['ccjmne-gsh-number-indicator'], contents: idx + 1 });
+        const numberIndicator = create({ classes: ['ccjmne-snh-number-indicator'], contents: idx + 1 });
         numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
         numberIndicator.addEventListener('mouseenter', tooltip.reveal);
         result.container.prepend(numberIndicator);

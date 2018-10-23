@@ -1,5 +1,5 @@
 
-#ccjmne-gsh-help-card {
+#ccjmne-snh-help-card {
   padding-bottom: map-get($spacing-h, regular);
   transition: box-shadow map-get($durations, regular) ease-out;
   border-radius: 5px;
@@ -9,7 +9,7 @@
   font-size: 16px;
   user-select: none;
 
-  #ccjmne-gsh-help-card-title {
+  #ccjmne-snh-help-card-title {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -52,7 +52,7 @@
     }
   }
 
-  .ccjmne-gsh-indent {
+  .ccjmne-snh-indent {
     display: inline-block;
     margin-right: 5px;
     transform: rotate(-10deg);
@@ -68,7 +68,7 @@
     }
 
     @for $depth from 1 through 4 {
-      &.ccjmne-gsh-indent-#{$depth} {
+      &.ccjmne-snh-indent-#{$depth} {
         margin-left: $depth * 1em;
       }
     }
@@ -103,7 +103,7 @@
         }
       }
 
-      &.ccjmne-gsh-new-section td {
+      &.ccjmne-snh-new-section td {
         border-top: map-get($spacing-h, comfortable) solid nth($light, 2);
       }
 
