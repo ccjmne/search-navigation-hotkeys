@@ -1,13 +1,12 @@
 {
   "manifest_version": 2,
-  "permissions": ["storage"],
   "background": {
     "scripts": ["background.js"]
   },
   "content_scripts": [{
     "js": ["content-script.js"],
     "css": ["style.css"],
-    "run_at": "document_end",
+    "run_at": "document_start",
     "matches": [
       "*://*.google.ac/search*",
       "*://*.google.ad/search*",
