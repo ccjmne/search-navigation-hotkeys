@@ -1,7 +1,7 @@
 {
   "node": true,
   "browser": true,
-  "esnext": true,
+  "esversion": 6,
   "bitwise": true,
   "camelcase": true,
   "curly": true,
@@ -19,5 +19,6 @@
   "trailing": true,
   "smarttabs": true,
   "-W008": false,
-  "-W016": false
+  "-W016": false,
+  "-W018": false
 }

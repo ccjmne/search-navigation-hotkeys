@@ -1,13 +1,27 @@
 'use strict';
 
+const CleanPlugin = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
+const UserscriptMeta = require('userscript-meta');
 const WrapperPlugin = require('wrapper-webpack-plugin');
 
-const UserscriptMeta = require('userscript-meta');
+const { resolve } = require('path'),
+  src = resolve(__dirname, 'src'),
+  dist = resolve(__dirname, 'dist/userscript');
+
 const p = require('./package.json');
 
-module.exports = {
-  optimization: { minimize: false },
+module.exports = (env, argv) => ({
+  devtool: argv.mode === 'development' ? 'cheap-source-map' : '',
+  optimization: { minimize: false }, // necessary for Userscript-style comments
+  entry: {
+    'main': resolve(src, 'index.js')
+  },
+  output: {
+    path: dist,
+    filename: '[name].js',
+    libraryTarget: 'umd'
+  },
   module: {
     rules: [{
       test: /\.js$/,
@@ -33,7 +47,8 @@ module.exports = {
     }]
   },
   plugins: [
-    new MinifyPlugin(),
+    new CleanPlugin([resolve(dist, '*.*')])
+  ].concat(argv.mode === 'development' ? [] : [new MinifyPlugin()]).concat([
     new WrapperPlugin({
       header: UserscriptMeta.stringify({
         name: p.name.split(/-/).map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' '), // kebab to title case
@@ -42,9 +57,9 @@ module.exports = {
         author: p.author,
         namespace: p.homepage,
         include: '*://www.google.tld/search*',
-        downloadURL: 'https://github.com/ccjmne/google-search-hotkeys/master/dist/main.js',
+        downloadURL: 'https://raw.githubusercontent.com/ccjmne/search-navigation-hotkeys/master/dist/main.js',
         grant: 'none'
       })
     })
-  ]
-};
+  ])
+});

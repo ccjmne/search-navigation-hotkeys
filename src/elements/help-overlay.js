@@ -3,12 +3,12 @@
 import { create, throttle } from '../utils/module';
 import { helpCard } from './help-card';
 
-const backdrop = create({ id: 'ccjmne--google-search-hotkeys--backdrop', contents: `
-    <div id="ccjmne--google-search-hotkeys--tilt-origin">
-        <div id="ccjmne--google-search-hotkeys--help-shadow"></div>
-        <div id="ccjmne--google-search-hotkeys--help-card-container"></div>
+const backdrop = create({ id: 'ccjmne-snh-backdrop', contents: `
+    <div id="ccjmne-snh-tilt-origin">
+        <div id="ccjmne-snh-help-shadow"></div>
+        <div id="ccjmne-snh-help-card-container"></div>
     </div>` }),
-  tiltOrigin = backdrop.querySelector('#ccjmne--google-search-hotkeys--tilt-origin');
+  tiltOrigin = backdrop.querySelector('#ccjmne-snh-tilt-origin');
 
 export function toggleHelp(visible) {
   if (visible && !backdrop.parentNode) {
@@ -22,7 +22,7 @@ export function toggleHelp(visible) {
   }
 }
 
-backdrop.querySelector('#ccjmne--google-search-hotkeys--help-card-container').appendChild(helpCard);
+backdrop.querySelector('#ccjmne-snh-help-card-container').appendChild(helpCard);
 backdrop.addEventListener('click', () => toggleHelp(false));
 
 tiltOrigin.addEventListener('mouseleave', () => (tiltOrigin.style.transform = ``));
@@ -33,3 +33,14 @@ tiltOrigin.addEventListener('mousemove', throttle(e => {
   const amplitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Math.max(helpCard.clientWidth, helpCard.clientHeight);
   tiltOrigin.style.transform = `rotate3d(${ Math.round(y) }, ${ -Math.round(x) }, 0, ${ amplitude * 10 }deg)`;
 }, 100));
+
+(click => {
+  helpCard.addEventListener('mousedown', () => click.down());
+  helpCard.addEventListener('mouseup', () => click.up());
+  helpCard.addEventListener('mouseleave', () => click.up());
+})({
+  isDown: false,
+  transform: ['scale(1)', 'scale(.95)'],
+  down: function () { this.isDown = this.isDown || helpCard.animate({ transform: this.transform }, { duration: 100, fill: 'forwards', easing: 'ease-out' }); },
+  up: function () { this.isDown = this.isDown && (helpCard.animate({ transform: [...this.transform].reverse() }, { duration: 300, fill: 'forwards', easing: 'cubic-bezier(.25, 2.5, .25, .5)' }), false); }
+});

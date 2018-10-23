@@ -1,87 +1,91 @@
 'use strict';
 
-import { create, onceSome, getUrlParameter, updateUrlParameter } from './utils/module';
+import { create, onceAny, onceSome, getUrlParameter, updateUrlParameter } from './utils/module';
 import { tooltip, indicator, toggleHelp } from './elements/module';
+import { toggleFilter } from './modules/filter-and-sort';
 require('./styles/module.scss');
 
-const opsMap = {
-  27: /* Escape -> close help   */ () => toggleHelp(false),
-  65: /* a      -> 'All' tab    */ () => (window.location.href = updateUrlParameter('tbm', '')),
-  73: /* i      -> 'Images' tab */ () => (window.location.href = updateUrlParameter('tbm', 'isch')),
-  77: /* m      -> 'Maps' tab   */ () => null, // TODO: impl
-  78: /* n      -> 'Vews' tab   */ () => (window.location.href = updateUrlParameter('tbm', 'nws')),
-  86: /* v      -> 'Videos' tab */ () => (window.location.href = updateUrlParameter('tbm', 'vid'))
-};
+onceAny('input[title=Search]').then(searchField => {
+  const focusSearchFiels = () => Promise.resolve().then(() => {
+    searchField.focus();
+    searchField.setSelectionRange(searchField.value.length, searchField.value.length);
+  });
 
-document.body.onkeydown = (e => {
-  /*
-   * Don't mess with typing into the Search field, or w/ Ctrl and Shift keys, unless:
-   *   Ctrl-Space                   (32)
-   *   Ctrl-Shift-Space             (32)
-   *   Ctrl-ArrowUp                 (38)      -> to allow browsing up while maintainting Ctrl and/or Shift
-   *   Ctrl-ArrowDown               (40)      -> to allow browsing down while maintainting Ctrl and/or Shift
-   *   Ctrl-[1..9]                  (49..57)
-   *   Ctrl-[Numpad1..Numpad9]      (97..105)
-   *   Shift-?                      (191)
-   */
-  if (e.srcElement === document.querySelector('input[title=Search]') ||
-    (e.shiftKey && !~[32, 38, 40, 191].indexOf(e.keyCode)) ||
-    (e.ctrlKey && !~[32, 38, 40].concat([...Array(9).keys()].map(x => 49 + x)).concat([...Array(9).keys()].map(x => 97 + x)).indexOf(e.keyCode))) {
-    return;
-  }
+  const opsMap = {
+    restoreFocus: () => 'noop', // not yet available
+    'Escape': /*  -> close help   */ () => (toggleHelp(false), opsMap.restoreFocus()),
+    '?': /*       -> show help    */ () => toggleHelp(true),
+    'a': /*       -> 'All' tab    */ () => (window.location.href = updateUrlParameter('tbm', '')),
+    'i': /*       -> 'Images' tab */ () => (window.location.href = updateUrlParameter('tbm', 'isch')),
+    'm': /*       -> 'Maps' tab   */ () => null, // TODO: impl
+    'n': /*       -> 'Vews' tab   */ () => (window.location.href = updateUrlParameter('tbm', 'nws')),
+    'v': /*       -> 'Videos' tab */ () => (window.location.href = updateUrlParameter('tbm', 'vid')),
+    '/':
+      /* w/o Ctrl -> focus search input
+       * w/ Ctrl  -> enter filter-and-sort mode */
+      e => e.ctrlKey ? toggleFilter(true) : focusSearchFiels()
+  };
 
-  // Results browsing only supported on 'All', 'Videos' and 'News' tabs
-  if (~([37, 38, 39, 40].indexOf(e.keyCode)) && !~([undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm')))) {
-    return;
-  }
+  searchField.addEventListener('blur', () => opsMap.restoreFocus());
 
-  (op => typeof op === 'function' && Promise.resolve(op(e)).then(() => e.preventDefault()))(opsMap[e.keyCode]);
+  document.body.onkeydown = (e => {
+    // Don't mess with typing into any input-able element, nor with Ctrl-empowered strokes we don't control
+    if (e.srcElement.matches(['input', 'select', 'textarea']) || (e.ctrlKey && !~['/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k'].indexOf(e.key))) {
+      return;
+    }
+
+    // Results browsing only supported on 'All', 'Videos' and 'News' tabs
+    if (~['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'h', 'j', 'k', 'l'].indexOf(e.key) && !~[undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm'))) {
+      return;
+    }
+
+    // TODO: have another ops map for non-results browsing (i.e.: switch tabs, show help, focus search, toggle filter/sort mode...)
+    (op => typeof op === 'function' && Promise.resolve(op(e)).then(() => (e.preventDefault(), e.stopPropagation())))(opsMap[e.key]);
+  });
+
+  // Once results are listed, additionally handle browsing them
+  onceSome(['#search .r > a:first-of-type', '#search .r g-link:first-of-type > a', '.ads-ad h3 > a:not(:empty)', '.ads-ad a > h3']) // #res h3, .ads-ad h3 maybe?
+    .then(nodes => nodes.filter(e => !e.closest(['g-scrolling-carousel', 'g-accordion-expander']))) // exclude carousel and 'people also ask' results
+    .then(nodes => nodes.filter(e => e.offsetParent !== null)) // exclude invisible elements – e.g.: ads hidden by an ad-blocker (see https://stackoverflow.com/a/21696585)
+    .then((function (nodes) {
+      Object.assign(this, {
+        prev: document.querySelector('a.pn#pnprev'),
+        next: document.querySelector('a.pn#pnnext'),
+        cur: nodes.length > 0 ? 0 : -1,
+        results: nodes.map(x => ({ container: x.closest(['.r', 'li.ads-ad', '.ads-ad li']), palette: x.querySelector('h3') || x.closest('h3'), link: x.closest('a') })),
+        go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
+        focus: idx => (this.cur = idx) === -1 ? focusSearchFiels().then(indicator.detach) : (result => {
+          result.link.focus();
+          result.container.prepend(indicator);
+          result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+          indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
+        })(this.results[idx])
+      });
+
+      this.results.forEach((result, idx) => {
+        const numberIndicator = create({ classes: ['ccjmne-snh-number-indicator'], contents: idx + 1 });
+        numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
+        numberIndicator.addEventListener('mouseenter', tooltip.reveal);
+        result.container.prepend(numberIndicator);
+      });
+
+      this.focus(this.cur);
+
+      // 1 through 9 on the numbers row and/or on the numeric pad -> follow corresponding result
+      Object.assign(opsMap, ...[...Array(9).keys()].map(idx => ({
+        [idx + 1]: e => (this.focus(idx), this.go(e))
+      })));
+      Object.assign(opsMap, {
+        'restoreFocus': () => this.focus(this.cur > 0 ? this.cur : 0),
+        ' ': /*          -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
+        'ArrowLeft': /*  -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
+        'ArrowUp': /*    -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
+        'ArrowRight': /* -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
+        'ArrowDown': /*  -> next result     */ () => this.focus(++this.cur % this.results.length), // jshint -W069
+        'h': /*          -> previous page   */ () => opsMap['ArrowLeft'](),
+        'j': /*          -> next result     */ () => opsMap['ArrowDown'](),
+        'k': /*          -> previous result */ () => opsMap['ArrowUp'](),
+        'l': /*          -> next page       */ () => opsMap['ArrowRight']() // jshint +W069
+      });
+    }).bind({}));
 });
-
-// Once results are listed, additionally handle browsing them
-onceSome('#main a > h3:first-child, #main h3 > a:first-child').then((function (nodes) {
-  Object.assign(this, {
-    cur: nodes.length > 0 ? 0 : -1,
-    results: [].map.call(nodes, x => ({ container: x.parentNode.parentNode, link: x.closest('a') })),
-    go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
-    focus: idx => (this.cur = idx) === -1 ? (input => {
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-      indicator.detach();
-    })(document.querySelector('input[title=Search]')) : (result => {
-      result.link.focus();
-      result.container.prepend(indicator);
-      result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-      indicator.animate([{ transform: 'translateX(-50px)' }, { transform: 'translateX(0)' }], { duration: 100, easing: 'ease-out' });
-    })(this.results[idx])
-  });
-
-  this.results.forEach((result, idx) => {
-    Object.assign(result.container.style, { position: 'relative', overflow: 'visible' });
-    const numberIndicator = create({ classes: ['ccjmne--google-search-hotkeys--number-indicator'], contents: idx + 1 });
-    numberIndicator.addEventListener('mouseenter', tooltip.reveal);
-    result.container.prepend(numberIndicator);
-  });
-
-  this.focus(this.cur);
-
-  // 1 through 9 on the numbers row and/or on the numeric pad -> follow corresponding result
-  [...Array(9).keys()].forEach(x => (op => Object.assign(opsMap, {
-    [49 + x]: op,
-    [97 + x]: op
-  }))(e => {
-    this.focus(x);
-    this.go(e);
-  }));
-  Object.assign(opsMap, {
-    32: /* space   -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
-    191:
-      /* slash     -> search input
-       * shift-?   -> show help       */
-      e => e.shiftKey ? toggleHelp(true) : this.focus(-1),
-    37: /* left    -> previous page   */ () => window.location.replace(updateUrlParameter('start', Math.max(parseInt(getUrlParameter('start') || '0') - this.results.length, 0))),
-    38: /* up      -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
-    39: /* right   -> next page       */ () => window.location.replace(updateUrlParameter('start', parseInt(getUrlParameter('start') || '0') + this.results.length)),
-    40: /* down    -> next result     */ () => this.focus(++this.cur % this.results.length)
-  });
-}).bind({}));

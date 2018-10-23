@@ -2,41 +2,50 @@
 
 import { create } from '../utils/module';
 
-export const helpCard = create({ id: 'ccjmne--google-search-hotkeys--help-card', contents: `
-    <div id="ccjmne--google-search-hotkeys--help-card-title">
-        <span>Google Search Hotkeys</span>
+export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
+    <div id="ccjmne-snh-help-card-title">
+        <span>Navigation Hotkeys for Google™ Search</span>
         <small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small>
     </div>
     <table></table>` });
+
+const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ', 'w/': 'add ' };
+const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃', Shift: '⇧', Space: '⎵', Enter: '↲', 'Escape': '␛' };
 
 const table = helpCard.querySelector('table');
 
 [
   [
-    { desc: `Focus [next] result`, hotkey: `Down` },
-    { desc: `Focus [previous] result`, hotkey: `Up` },
-    { desc: `Navigate to [next] page`, hotkey: `Right` },
-    { desc: `Navigate to [previous] page`, hotkey: `Left` }
+    { desc: `Focus [previous] result`, hotkey: `Up|k` },
+    { desc: `Focus [next] result`, hotkey: `Down|j` },
+    { desc: `Navigate to [previous] page`, hotkey: `Left|h` },
+    { desc: `Navigate to [next] page`, hotkey: `Right|l` }
   ],
   [
-    { desc: `[Open] focused`, hotkey: `Space|Enter` },
-    { desc: `[Open] focused in [new tab]`, hotkey: `Ctrl-[Space|Enter]` },
-    { desc: `Open #[1] to #[9]`, hotkey: `1..9` },
-    { desc: `Open #[1] to #[9] in [new tab]`, hotkey: `Ctrl-[1..9]` }
+    { desc: `Open [focused] result`, hotkey: `Space|Enter` },
+    { desc: `in [new tab]`, hotkey: `w/Ctrl`, indent: 1 },
+    { desc: `and [follow]`, hotkey: `w/Ctrl-Shift`, indent: 2 },
+    { desc: `Open result #[1] to #[9]`, hotkey: `1..9` }
   ],
   [
     { desc: `Focus [search] field`, hotkey: `/` },
+    { desc: `Enter [filter & sort] mode`, hotkey: `Ctrl-/` }
+  ],
+  [
     { desc: `Search [all]`, hotkey: `a` },
     { desc: `Search [videos]`, hotkey: `v` },
     { desc: `Search [images]`, hotkey: `i` },
     { desc: `Search [news]`, hotkey: `n` }
   ],
   [
-    { desc: `[Show] help`, hotkey: `Shift-?` },
+    { desc: `[Show] help`, hotkey: `?` },
     { desc: `[Close] help`, hotkey: `Escape` }
   ]
-].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne--google-search-hotkeys--new-section'] : [], contents: `
-    <td>${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
-    <td><kbd>${op.hotkey.replace(/[[\]+|-]|\.\./g, s => `</kbd>${ { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ' }[s] }<kbd>`)}</kbd></td>` }))));
+].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-snh-new-section'] : [], contents: `
+    <td>${ op.indent ? `<div class="ccjmne-snh-indent ccjmne-snh-indent-${ op.indent }"></div>` : '' }${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
+    <td>${ op.hotkey
+      /* tokenise  */.split(new RegExp((s => `(?=${ s })|(?<=${ s })`)(Object.keys(metaChars).map(k => k.replace(/./g, c => '\\' + c)).join('|'))))
+      /* transform */.map(s => metaChars[s] || `<kbd>${ s }${ addons[s] ? `<span class="kbd-addon">${ addons[s] }</span>` : '' }</kbd>`)
+      /* wrap up   */.join('') }</td>` }))));
 
 helpCard.addEventListener('click', e => e.stopPropagation());

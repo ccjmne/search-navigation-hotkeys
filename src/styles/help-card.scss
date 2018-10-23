@@ -1,15 +1,26 @@
-#ccjmne--google-search-hotkeys--help-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
-  border-bottom: 1px solid $colour-accent;
-  background-color: $colour-primary;
-  color: nth($light, 2);
-  font-size: 18px;
-}
 
-#ccjmne--google-search-hotkeys--help-card {
+#ccjmne-snh-help-card {
+  padding-bottom: map-get($spacing-h, regular);
+  transition: box-shadow map-get($durations, regular) ease-out;
+  border-radius: 5px;
+  background-color: nth($light, 2);
+  box-shadow: nth($shadow, 2);
+  color: nth($dark, 2);
+  font-size: 16px;
+  user-select: none;
+
+  #ccjmne-snh-help-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
+    border-bottom: 3px solid $colour-accent;
+    border-radius: 5px 5px 0 0;
+    background-color: $colour-primary;
+    color: nth($light, 2);
+    font-size: 18px;
+  }
+
   a,
   a:visited {
     color: nth($light, 2);
@@ -21,8 +32,9 @@
   }
 
   kbd {
-    display: inline-block;
+    display: inline-flex;
     padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
+    overflow: hidden;
     border: 1px solid nth($dark, 3);
     border-radius: 3px;
     background-color: nth($light, 2);
@@ -31,43 +43,94 @@
     white-space: nowrap;
     cursor: default;
 
-    &:empty {
-      display: none;
+    .kbd-addon {
+      margin: -#{map-get($spacing-h, tight-em)} -#{map-get($spacing-w, tight-em)} -#{map-get($spacing-h, tight-em)} map-get($spacing-w, tight-em);
+      padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
+      border-left: 1px solid nth($dark, 3);
+      background-color: fade-out(nth($dark, 1), .9);
+      line-height: 1em;
+    }
+  }
+
+  .ccjmne-snh-indent {
+    display: inline-block;
+    margin-right: 5px;
+    transform: rotate(-10deg);
+    opacity: .67;
+
+    &::before {
+      content: '⤿';
+      position: relative;
+      top: 5px;
+      font-size: 1.5em;
+      font-weight: lighter;
+      line-height: 0;
+    }
+
+    @for $depth from 1 through 4 {
+      &.ccjmne-snh-indent-#{$depth} {
+        margin-left: $depth * 1em;
+      }
     }
   }
 
   table {
     border-collapse: collapse;
-
-    &:last-child tr:last-child td {
-      border-bottom: map-get($spacing-h, comfortable) solid nth($light, 2);
-    }
+    border-bottom: map-get($spacing-h, regular) solid nth($light, 2);
 
     tr {
+      background-color: nth($light, 2);
+
       &:nth-child(2n) {
-        background-color: fade-out(nth($dark, 1), .9);
+        background-color: mix($colour-primary, nth($light, 2), 20%);
       }
 
       &:hover {
-        background-color: fade-out($colour-primary, .5);
+        background-color: mix($colour-primary, nth($light, 2), 50%);
         color: nth($dark, 1);
+
+        td::before {
+          visibility: visible;
+          left: -#{map-get($spacing-w, comfortable)};
+        }
+
+        td:last-child::before {
+          left: map-get($spacing-w, comfortable);
+        }
 
         kbd {
           color: $colour-accent;
         }
       }
 
-      &.ccjmne--google-search-hotkeys--new-section td {
+      &.ccjmne-snh-new-section td {
         border-top: map-get($spacing-h, comfortable) solid nth($light, 2);
       }
 
       td {
+        position: relative;
         padding: map-get($spacing-h, tight-em) 0 map-get($spacing-h, tight-em) map-get($spacing-w, comfortable);
         white-space: nowrap;
 
         &:last-child {
           padding-right: map-get($spacing-w, comfortable);
           text-align: right;
+        }
+
+        &::before {
+          content: '';
+          visibility: hidden;
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          transition: all .1s ease-out;
+          border-radius: 3px;
+          background-color: desaturate($colour-accent, 30%);
+          box-shadow: nth($shadow, 2);
         }
       }
     }
