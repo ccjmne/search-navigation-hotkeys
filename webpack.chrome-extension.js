@@ -6,19 +6,20 @@ const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const { resolve } = require('path'),
-  src = resolve(__dirname, 'src');
+  src = resolve(__dirname, 'src'),
+  dist = resolve(__dirname, 'dist/chrome-extension');
 
 const p = require('./package.json');
 
-module.exports = {
-  devtool : 'cheap-source-map',
+module.exports = (env, argv) => ({
+  devtool: argv.mode === 'development' ? 'cheap-source-map' : '',
   entry: {
     'content-script': resolve(src, 'index.js'),
     'background': resolve(src, 'background.js')
   },
   output: {
-    publicPath: resolve(__dirname),
-    path: resolve(__dirname, 'dist'),
+    publicPath: dist,
+    path: dist,
     filename: '[name].js',
     libraryTarget: 'umd'
   },
@@ -47,11 +48,10 @@ module.exports = {
     }]
   },
   plugins: [
-    new ChromeExtensionReloader(),
     new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new CleanPlugin(),
+    new CleanPlugin([resolve(dist, '*.*')]),
     new CopyPlugin([{
-      from: resolve(__dirname, 'manifest.json'),
+      from: resolve(src, 'manifest.json'),
       transform: contents => Buffer.from(JSON.stringify({
         name: p.name.split(/-/).map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' '), // kebab to title case
         version: p.version,
@@ -60,5 +60,5 @@ module.exports = {
         ...JSON.parse(contents.toString())
       }))
     }])
-  ]
-};
+  ].concat(argv.mode === 'development' ? [new ChromeExtensionReloader()] : [])
+});

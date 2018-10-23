@@ -6,9 +6,10 @@
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "set NODE_ENV=development&& webpack --mode development --config webpack.chrome-extension.js --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:extension",
+    "build:extension": "webpack --mode production --config webpack.chrome-extension.js",
+    "dev": "npm run dev:extension",
+    "dev:extension": "set NODE_ENV=development&& webpack --mode development --config webpack.chrome-extension.js --watch"
   },
   "repository": {
     "type": "git",
