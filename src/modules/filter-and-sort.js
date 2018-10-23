@@ -22,33 +22,30 @@ export function toggleFilter(visible) {
 
 Promise.all([onceAny(selectors.root), onceSome(`${ selectors.root } ${ selectors.menus }`)]).then(([root, menus]) => {
   root.addEventListener('keydown', e => {
-    if (e.which === 191) {
-      toggleFilter(false);
-      if (e.ctrlKey) {
-        // Don't stop propagation for slash (focus search field) and shift-? (show help)
-        e.stopPropagation();
-      }
+    if(~['?', '/', 'Escape'].indexOf(e.key)) {
+      // Bypass e.stopPropagation()
+      return toggleFilter(false);
     }
 
-    if (~[13, 27, 32, 37, 38, 39, 40, 72, 74, 75, 76].indexOf(e.which)) {
+    if (~['Enter', 'Escape', ' ', 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'h', 'j', 'k', 'l'].indexOf(e.key)) {
       const focused = root.querySelector(selectors.options.map(s => `${ s }:focus`)),
         options = [].slice.apply(root.querySelectorAll(selectors.options)),
         curMenu = (openedMenu => openedMenu ? menus.indexOf(openedMenu.previousElementSibling) : 0)(root.querySelector(`.hdtb-mn-o`)),
         cur = options.indexOf(focused);
 
-      ({
-        13: /* enter  */ () => focused.click(),
-        27: /* escape */ () => toggleFilter(false),
-        32: /* space  */ () => focused.click(),
-        37: /* left   */ () => menus[curMenu > 0 ? curMenu - 1 : menus.length - 1].click(),
-        38: /* up     */ () => options[(cur > 0 ? cur - 1 : options.length - 1)].focus(),
-        39: /* right  */ () => menus[(curMenu + 1) % menus.length].click(),
-        40: /* down   */ () => options[(cur + 1) % options.length].focus(),
-        72: /* h      */ () => menus[curMenu > 0 ? curMenu - 1 : menus.length - 1].click(),
-        74: /* j      */ () => options[(cur > 0 ? cur - 1 : options.length - 1)].focus(),
-        75: /* k      */ () => options[(cur + 1) % options.length].focus(),
-        76: /* l      */ () => menus[(curMenu + 1) % menus.length].click()
-      })[e.which]();
+      const opsMap = {
+        'Enter':      () => focused.click(),
+        ' ':          () => focused.click(),
+        'ArrowLeft':  () => menus[curMenu > 0 ? curMenu - 1 : menus.length - 1].click(),
+        'ArrowUp':    () => options[(cur > 0 ? cur - 1 : options.length - 1)].focus(),
+        'ArrowRight': () => menus[(curMenu + 1) % menus.length].click(),
+        'ArrowDown':  () => options[(cur + 1) % options.length].focus(), // jshint -W069
+        'h':          () => opsMap['ArrowLeft'](),
+        'j':          () => opsMap['ArrowDown'](),
+        'k':          () => opsMap['ArrowUp'](),
+        'l':          () => opsMap['ArrowRight']() // jshint +W069
+      };
+      opsMap[e.key]();
 
       e.stopPropagation();
       e.preventDefault();

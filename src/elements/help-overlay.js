@@ -3,12 +3,12 @@
 import { create, throttle } from '../utils/module';
 import { helpCard } from './help-card';
 
-const backdrop = create({ id: 'ccjmne-gsh-backdrop', contents: `
-    <div id="ccjmne-gsh-tilt-origin">
-        <div id="ccjmne-gsh-help-shadow"></div>
-        <div id="ccjmne-gsh-help-card-container"></div>
+const backdrop = create({ id: 'ccjmne-snh-backdrop', contents: `
+    <div id="ccjmne-snh-tilt-origin">
+        <div id="ccjmne-snh-help-shadow"></div>
+        <div id="ccjmne-snh-help-card-container"></div>
     </div>` }),
-  tiltOrigin = backdrop.querySelector('#ccjmne-gsh-tilt-origin');
+  tiltOrigin = backdrop.querySelector('#ccjmne-snh-tilt-origin');
 
 export function toggleHelp(visible) {
   if (visible && !backdrop.parentNode) {
@@ -22,7 +22,7 @@ export function toggleHelp(visible) {
   }
 }
 
-backdrop.querySelector('#ccjmne-gsh-help-card-container').appendChild(helpCard);
+backdrop.querySelector('#ccjmne-snh-help-card-container').appendChild(helpCard);
 backdrop.addEventListener('click', () => toggleHelp(false));
 
 tiltOrigin.addEventListener('mouseleave', () => (tiltOrigin.style.transform = ``));

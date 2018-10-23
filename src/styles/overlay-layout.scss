@@ -1,4 +1,4 @@
-#ccjmne-gsh-backdrop {
+#ccjmne-snh-backdrop {
   display: flex;
   position: fixed;
   z-index: 999;
@@ -12,22 +12,22 @@
   background-color: fade-out(nth($dark, 1), .65);
 }
 
-#ccjmne-gsh-tilt-origin {
+#ccjmne-snh-tilt-origin {
   transform-style: preserve-3d;
   transition: transform map-get($durations, regular) ease-out;
 
   &:hover {
-    #ccjmne-gsh-help-shadow {
+    #ccjmne-snh-help-shadow {
       opacity: .5;
     }
 
-    #ccjmne-gsh-help-card {
+    #ccjmne-snh-help-card {
       box-shadow: nth($shadow, 4);
     }
   }
 }
 
-#ccjmne-gsh-help-shadow {
+#ccjmne-snh-help-shadow {
   position: absolute;
   top: 0;
   right: 0;
@@ -40,6 +40,6 @@
   background-color: $colour-primary;
 }
 
-#ccjmne-gsh-help-card-container {
+#ccjmne-snh-help-card-container {
   perspective: 2000px;
 }
