@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "set NODE_ENV=development&& webpack --mode development --config webpack.dev.js --watch",
+    "dev": "set NODE_ENV=development&& webpack --mode development --config webpack.chrome-extension.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
