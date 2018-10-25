@@ -25,7 +25,12 @@ Navigate results from _Google™ search_ results without ever lifting your hands
 
 ## TODO
 
--   [ ] Create extension logo
+-   [x] Create extension logo
+-   [ ] Open links with <kbd>o</kbd>
+-   [ ] Add some sort of '/' to the Search input field
+-   [ ] Options: Preferred Google™ search domain for omnibox quick search
+-   [ ] Options: Disable Space opening links
+-   [ ] Options: Disable "What's this?" bubbles
 -   [ ] Include a `no-help` build w/ each release
 -   [ ] Complete README w/ pictures and animated gifs
 -   [x] Add hotkeys for filtering/sorting  
