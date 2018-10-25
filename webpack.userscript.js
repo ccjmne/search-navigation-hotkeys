@@ -19,7 +19,7 @@ module.exports = (env, argv) => ({
   },
   output: {
     path: dist,
-    filename: '[name].js',
+    filename: '[name].user.js',
     libraryTarget: 'umd'
   },
   module: {
@@ -57,7 +57,7 @@ module.exports = (env, argv) => ({
         author: p.author,
         namespace: p.homepage,
         include: '*://www.google.tld/search*',
-        downloadURL: 'https://raw.githubusercontent.com/ccjmne/search-navigation-hotkeys/master/dist/main.js',
+        downloadURL: 'https://raw.githubusercontent.com/ccjmne/search-navigation-hotkeys/master/dist/userscript/main.user.js',
         grant: 'none'
       })
     })
