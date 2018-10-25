@@ -4,7 +4,7 @@
   "description": "Navigate results from Google™ search without ever lifting your hands off the keyboard!",
   "author": "Eric NICOLAS <ccjmne@gmail.com> (https://github.com/ccjmne)",
   "license": "GPL-3.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "npm run build:userscript && npm run build:extension",
     "build:userscript": "webpack --mode production --config webpack.userscript.js",
@@ -48,6 +48,7 @@
     "webpack": "^4.20.2",
     "webpack-chrome-extension-reloader": "^0.8.3",
     "webpack-cli": "^3.1.1",
-    "wrapper-webpack-plugin": "^2.0.0"
+    "wrapper-webpack-plugin": "^2.0.0",
+    "zip-webpack-plugin": "^3.0.0"
   }
 }
