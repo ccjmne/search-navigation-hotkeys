@@ -29,8 +29,13 @@ onceAny('input[title=Search]').then(searchField => {
   searchField.addEventListener('blur', () => opsMap.restoreFocus());
 
   document.body.onkeydown = (e => {
-    // Don't mess with typing into any input-able element, nor with Ctrl-empowered strokes we don't control
-    if (e.srcElement.matches(['input', 'select', 'textarea']) || (e.ctrlKey && !~['/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k'].indexOf(e.key))) {
+    /**
+     * Don't mess with:
+     * - typing into any input-able element,
+     * - Alt-empowered combinations
+     * - Ctrl-empowered combinations we don't control ('/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k')
+     **/
+    if (e.srcElement.matches(['input', 'select', 'textarea']) || e.altKey || (e.ctrlKey && !~['/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k'].indexOf(e.key))) {
       return;
     }
 
