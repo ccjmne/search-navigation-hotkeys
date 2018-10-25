@@ -4,10 +4,12 @@ const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const CleanPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 
 const { resolve } = require('path'),
   src = resolve(__dirname, 'src'),
-  dist = resolve(__dirname, 'dist/chrome-extension');
+  dist = resolve(__dirname, 'dist/chrome-extension'),
+  assets = resolve(__dirname, 'assets');
 
 const p = require('./package.json');
 
@@ -18,7 +20,6 @@ module.exports = (env, argv) => ({
     'background': resolve(src, 'background.js')
   },
   output: {
-    publicPath: dist,
     path: dist,
     filename: '[name].js',
     libraryTarget: 'umd'
@@ -49,16 +50,18 @@ module.exports = (env, argv) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new CleanPlugin([resolve(dist, '*.*')]),
-    new CopyPlugin([{
-      from: resolve(src, 'manifest.json'),
-      transform: contents => Buffer.from(JSON.stringify({
-        name: p.name.split(/-/).map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' '), // kebab to title case
-        version: p.version,
-        description: p.description,
-        author: p.author,
-        ...JSON.parse(contents.toString())
-      }))
-    }])
-  ].concat(argv.mode === 'development' ? [new ChromeExtensionReloader()] : [])
+    new CleanPlugin([resolve(dist, '*.*'), resolve(dist, 'assets/*.*')]),
+    new CopyPlugin([
+      { from: resolve(assets, '*.*'), ignore: resolve(assets, 'src') }, {
+        from: resolve(src, 'manifest.json'),
+        transform: contents => Buffer.from(JSON.stringify({
+          name: p.name.split(/-/).map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' '), // kebab to title case
+          version: p.version,
+          description: p.description,
+          author: p.author,
+          ...JSON.parse(contents.toString())
+        }))
+      }
+    ])
+  ].concat(argv.mode === 'development' ? [new ChromeExtensionReloader()] : [new ZipPlugin({ filename: p.name })])
 });
