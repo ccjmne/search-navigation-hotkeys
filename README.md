@@ -1,4 +1,4 @@
-# Navigation Hotkeys for _Google™ search_
+# ![Logo](dist/chrome-extension/assets/icon-48.png "Logo") Navigation Hotkeys for _Google™ search_
 
 Navigate results from _Google™ search_ results without ever lifting your hands off the keyboard!
 
@@ -25,20 +25,14 @@ Navigate results from _Google™ search_ results without ever lifting your hands
 
 ## TODO
 
--   [x] Create extension logo
 -   [ ] Open links with <kbd>o</kbd>
--   [ ] Add some sort of '/' to the Search input field
+-   [ ] ~~Add some sort of '/' to the Search input field~~
 -   [ ] Options: Preferred Google™ search domain for omnibox quick search
 -   [ ] Options: Disable Space opening links
 -   [ ] Options: Disable "What's this?" bubbles
 -   [ ] Include a `no-help` build w/ each release
 -   [ ] Complete README w/ pictures and animated gifs
--   [x] Add hotkeys for filtering/sorting  
--   [ ] ~~Add special help card when in filter/sort mode~~
--   [x] `this.focus(this.cur)` when exiting filter/sort mode
 -   [ ] Contribution guidelines (CONTRIBUTE.md)
--   [x] Ensure no copyright or trademark is violated
--   [x] Make it into an actual Extension for (customizable shortcuts, Chrome's Omnibox "I'm feeling Lucky" search engine, open in background)...
 
 ## Trademark disclaimer
 
