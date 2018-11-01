@@ -44,7 +44,6 @@ onceAny('input.gsfi').then(searchField => {
       return;
     }
 
-    // TODO: have another ops map for non-results browsing (i.e.: switch tabs, show help, focus search, toggle filter/sort mode...)
     (op => typeof op === 'function' && Promise.resolve(op(e)).then(() => (e.preventDefault(), e.stopPropagation())))(opsMap[e.key]);
   });
 

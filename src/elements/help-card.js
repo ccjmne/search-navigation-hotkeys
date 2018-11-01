@@ -10,7 +10,7 @@ export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
     <table></table>` });
 
 const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ', 'w/': 'add ' };
-const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃', Shift: '⇧', Space: '⎵', Enter: '↲', 'Escape': '␛' };
+const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃', Shift: '⇧', Space: '⎵', Enter: '↲', Escape: '␛' };
 
 const table = helpCard.querySelector('table');
 
