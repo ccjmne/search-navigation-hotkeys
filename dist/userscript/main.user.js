@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name Search Navigation Hotkeys
-// @version 1.2.1
+// @version 1.2.2
 // @description Navigate results from Google™ search without ever lifting your hands off the keyboard!
 // @author Eric NICOLAS <ccjmne@gmail.com> (https://github.com/ccjmne)
 // @namespace https://github.com/ccjmne/search-navigation-hotkeys#readme
