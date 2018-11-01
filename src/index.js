@@ -71,6 +71,7 @@ onceAny('input.gsfi').then(searchField => {
         const numberIndicator = create({ classes: ['ccjmne-snh-number-indicator'], contents: idx + 1 });
         numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
         numberIndicator.addEventListener('mouseenter', tooltip.reveal);
+        result.container.style.position = 'relative';
         result.container.prepend(numberIndicator);
       });
 
