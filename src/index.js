@@ -5,7 +5,7 @@ import { tooltip, indicator, toggleHelp } from './elements/module';
 import { toggleFilter } from './modules/filter-and-sort';
 require('./styles/module.scss');
 
-onceAny('input[title=Search]').then(searchField => {
+onceAny('input.gsfi').then(searchField => {
   const focusSearchFiels = () => Promise.resolve().then(() => {
     searchField.focus();
     searchField.setSelectionRange(searchField.value.length, searchField.value.length);
