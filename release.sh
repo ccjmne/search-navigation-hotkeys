@@ -27,8 +27,8 @@ trap 'catch ${LINENO}' ERR
 
 v=$1
 
-nf "Pull from origin/master..."
-git checkout master
+nf "Pull from origin/develop..."
+git checkout develop
 git pull origin
 ok "Pull complete"
 nf "Create new branch 'release/${v}'..."
@@ -46,17 +46,19 @@ ok "Extension successfully built"
 nf "Commit build..."
 git add dist/*.*
 git commit -m "Build ${v}"
-nf "Create version tag..."
-git tag "${v}"
-ok "Release ready"
 nf "Merge into master..."
 git checkout master
+git pull origin
 git merge --no-ff release/${v}
 git branch -d release/${v}
 ok "Merge complete"
 nf "Push to origin..."
 git push origin
-ok "Push complete!"
+ok "Push complete"
+nf "Create version tag..."
+git tag $v
+git push origin $v
+ok "Release complete!"
 nf "Don't forget to:"
 nf " - publish to the Chrome Web Store"
 nf "   \e[4mhttps://chrome.google.com/webstore/developer/edit/ifbjebjodkkageignlfdkipikmdllhjf\e[0m"
