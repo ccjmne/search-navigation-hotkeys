@@ -2,9 +2,9 @@
 set -e
 
 say() { printf "$1 $2\n"; }
-ok() { say '   [\033[0;32m ok \033[0m]' "$1"; }
-ko() { say '[\033[0;31m error \033[0m]' "$1"; }
-nf() { say ' [\033[1;34m info \033[0m]' "$1"; }
+ok() { say '   [\e[0;32m ok \e[0m]' "$1"; }
+ko() { say '[\e[0;31m error \e[0m]' "$1"; }
+nf() { say ' [\e[1;34m info \e[0m]' "$1"; }
 
 usage() { ko "Usage: $0 [-v <version number>]" 1>&2; exit 1; }
 
@@ -58,5 +58,6 @@ nf "Push to origin..."
 git push origin
 ok "Push complete!"
 nf "Don't forget to:"
-nf " - publish to the Chromw Web Store"
+nf " - publish to the Chrome Web Store"
+nf "   \e[4mhttps://chrome.google.com/webstore/developer/edit/ifbjebjodkkageignlfdkipikmdllhjf\e[0m"
 nf " - rebase develop --onto master"
