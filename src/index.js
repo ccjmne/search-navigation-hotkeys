@@ -1,12 +1,14 @@
 'use strict';
 
-import { create, onceAny, onceSome, getUrlParameter, updateUrlParameter } from './utils/module';
+import { create, onceAny, onceSome, getUrlParameter, updateUrlParameter, getOpts } from './utils/module';
 import { tooltip, indicator, toggleHelp } from './elements/module';
 import { toggleFilter } from './modules/filter-and-sort';
 require('./styles/module.scss');
 
-onceAny('input.gsfi').then(searchField => {
-  const focusSearchFiels = () => Promise.resolve().then(() => {
+Promise.all([getOpts(), onceAny('input.gsfi')]).then(([options, searchField]) => {
+  const udlr = options['mode:secondary-navigation'];
+  const open = options['key:open-link'];
+  const focusSearchFields = () => Promise.resolve().then(() => {
     searchField.focus();
     searchField.setSelectionRange(searchField.value.length, searchField.value.length);
   });
@@ -23,7 +25,7 @@ onceAny('input.gsfi').then(searchField => {
     '/':
       /* w/o Ctrl -> focus search input
        * w/ Ctrl  -> enter filter-and-sort mode */
-      e => e.ctrlKey ? toggleFilter(true) : focusSearchFiels()
+      e => e.ctrlKey ? toggleFilter(true) : focusSearchFields()
   };
 
   searchField.addEventListener('blur', () => opsMap.restoreFocus());
@@ -33,18 +35,23 @@ onceAny('input.gsfi').then(searchField => {
      * Don't mess with:
      * - typing into any input-able element,
      * - Alt-empowered combinations
-     * - Ctrl-empowered combinations we don't control ('/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k')
+     * - Ctrl-empowered combinations other than those we control ('/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k')
      **/
-    if (e.srcElement.matches(['input', 'select', 'textarea']) || e.altKey || (e.ctrlKey && !~['/', ' ', 'ArrowUp', 'ArrowDown', 'j', 'k'].indexOf(e.key))) {
+    if (e.srcElement.matches(['input', 'select', 'textarea']) || e.altKey || (e.ctrlKey && !~['/', open, open.toUpperCase(), 'ArrowUp', 'ArrowDown', udlr[0], udlr[1]].indexOf(e.key))) {
       return;
     }
+
+     // Don't react to meta keys 'keydown'
+     if(~['Control', 'Meta', 'Alt', 'Shift', 'CapsLock', 'Tab', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown', 'ScrollLock', 'Pause'].indexOf(e.key)) {
+       return;
+     }
 
     // Results browsing only supported on 'All', 'Videos' and 'News' tabs
-    if (~['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'h', 'j', 'k', 'l'].indexOf(e.key) && !~[undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm'))) {
+    if (~['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].concat(udlr.split('')).indexOf(e.key) && !~[undefined, null, '', 'nws', 'vid'].indexOf(getUrlParameter('tbm'))) {
       return;
     }
 
-    (op => typeof op === 'function' && Promise.resolve(op(e)).then(() => (e.preventDefault(), e.stopPropagation())))(opsMap[e.key]);
+    (op => typeof op === 'function' && Promise.resolve(e.preventDefault()).then(() => e.stopPropagation()).then(() => op(e)))(opsMap[e.key]);
   });
 
   // Once results are listed, additionally handle browsing them
@@ -58,7 +65,7 @@ onceAny('input.gsfi').then(searchField => {
         cur: nodes.length > 0 ? 0 : -1,
         results: nodes.map(x => ({ container: x.closest(['.r', 'li.ads-ad', '.ads-ad li']), palette: x.querySelector('h3') || x.closest('h3'), link: x.closest('a') })),
         go: e => this.results[this.cur] && this.results[this.cur].link.dispatchEvent(new MouseEvent('click', e)),
-        focus: idx => (this.cur = idx) === -1 ? focusSearchFiels().then(indicator.detach) : (result => {
+        focus: idx => (this.cur = idx) === -1 ? focusSearchFields().then(indicator.detach) : (result => {
           result.link.focus();
           result.container.prepend(indicator);
           result.container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
@@ -82,15 +89,16 @@ onceAny('input.gsfi').then(searchField => {
       })));
       Object.assign(opsMap, {
         'restoreFocus': () => this.focus(this.cur > 0 ? this.cur : 0),
-        ' ': /*          -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
-        'ArrowLeft': /*  -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
-        'ArrowUp': /*    -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
-        'ArrowRight': /* -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
-        'ArrowDown': /*  -> next result     */ () => this.focus(++this.cur % this.results.length), // jshint -W069
-        'h': /*          -> previous page   */ () => opsMap['ArrowLeft'](),
-        'j': /*          -> next result     */ () => opsMap['ArrowDown'](),
-        'k': /*          -> previous result */ () => opsMap['ArrowUp'](),
-        'l': /*          -> next page       */ () => opsMap['ArrowRight']() // jshint +W069
+        [open]: /*               -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
+        [open.toUpperCase()]: /* -> follow focused  */ e => this.go({ ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }),
+        'ArrowLeft': /*          -> previous page   */ () => this.prev && this.prev.dispatchEvent(new MouseEvent('click')),
+        'ArrowUp': /*            -> previous result */ () => this.focus(this.cur > 0 ? this.cur - 1 : this.results.length - 1),
+        'ArrowRight': /*         -> next page       */ () => this.next && this.next.dispatchEvent(new MouseEvent('click')),
+        'ArrowDown': /*          -> next result     */ () => this.focus(++this.cur % this.results.length), // jshint -W069
+        [udlr.charAt(0)]: /*     -> previous result */ () => opsMap['ArrowUp'](),
+        [udlr.charAt(1)]: /*     -> next result     */ () => opsMap['ArrowDown'](),
+        [udlr.charAt(2)]: /*     -> previous page   */ () => opsMap['ArrowLeft'](),
+        [udlr.charAt(3)]: /*     -> next page       */ () => opsMap['ArrowRight']() // jshint +W069
       });
     }).bind({}));
 });
