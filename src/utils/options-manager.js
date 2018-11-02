@@ -2,7 +2,7 @@
 
 /* globals chrome */
 
-const defaults = { 'key:open-link': ' ', 'feature:whats-this': true, 'mode:secondary-navigation': 'jkhl' };
+const defaults = { 'key:open-link': ' ', 'feature:whats-this': true, 'mode:secondary-navigation': 'kjhl' };
 const pick = (keys, obj = defaults) => Object.keys(obj).filter(k => ~keys.indexOf(k)).reduce((acc, k) => Object.assign(acc, {
   [k]: obj[k]
 }), {});
