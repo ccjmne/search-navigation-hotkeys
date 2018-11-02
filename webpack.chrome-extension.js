@@ -8,6 +8,7 @@ const ZipPlugin = require('zip-webpack-plugin');
 
 const { resolve } = require('path'),
   src = resolve(__dirname, 'src'),
+  templates = resolve(src, 'templates'),
   dist = resolve(__dirname, 'dist/chrome-extension'),
   assets = resolve(__dirname, 'assets');
 
@@ -17,7 +18,8 @@ module.exports = (env, argv) => ({
   devtool: argv.mode === 'development' ? 'cheap-source-map' : '',
   entry: {
     'content-script': resolve(src, 'index.js'),
-    'background': resolve(src, 'background.js')
+    'background': resolve(src, 'background.js'),
+    'options': resolve(src, 'options.js')
   },
   output: {
     path: dist,
@@ -50,9 +52,10 @@ module.exports = (env, argv) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new CleanPlugin([resolve(dist, '*.*'), resolve(dist, 'assets/*.*')]),
+    new CleanPlugin([resolve(dist, '*.*'), resolve(dist, 'assets/*.*'), resolve(dist, 'templates/*.*')]),
     new CopyPlugin([
-      { from: resolve(assets, '*.*'), ignore: resolve(assets, 'src') }, {
+      { from: resolve(assets, '*.*'), ignore: resolve(assets, 'src') },
+      { from: resolve(templates, '*.*'), flatten: true, to: 'templates' }, {
         from: resolve(src, 'manifest.json'),
         transform: contents => Buffer.from(JSON.stringify({
           name: p.name.split(/-/).map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' '), // kebab to title case

@@ -14,6 +14,11 @@
   "omnibox": {
     "keyword": "snh"
   },
+  "options_ui": {
+    "page": "templates/options.html",
+    "chrome_style": true,
+    "open_in_tab": false
+  },
   "content_scripts": [{
     "js": ["content-script.js"],
     "css": ["style.css"],
