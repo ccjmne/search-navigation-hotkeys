@@ -2,10 +2,24 @@
 
 /* globals chrome */
 
+import { defaults } from './utils/options-manager';
+
 // resources
 const form = document.querySelector('form[name=options]');
-const feedback = (e => (str => e.innerHTML = str))(document.getElementById('status'));
-const defaults = { 'key:open-link': ' ', 'feature:whats-this': true, 'mode:secondary-navigation': 'khjl' };
+class Logger {
+  constructor(element) {
+    this.e = element;
+  }
+
+  log(html) {
+    clearTimeout(this._);
+    this.e.innerHTML = html;
+    this.e.animate({ color: ['crimson', ''] }, { duration: 200 });
+    this._ = setTimeout(() => this.e.innerHTML = '', 3000);
+  }
+}
+
+const logger = new Logger(document.getElementById('status'));
 
 // operations
 const restore = () => new Promise(resolve => chrome.storage.sync.get(
@@ -21,5 +35,5 @@ const save = () => new Promise(resolve => chrome.storage.sync.set(
 
 // linking
 document.addEventListener('DOMContentLoaded', restore);
-document.querySelector('#save').addEventListener('click', () => save().then(() => feedback('Options saved.')));
-document.querySelector('#reset').addEventListener('click', () => reset().then(() => feedback('Options reset to default.')));
+document.querySelector('#save').addEventListener('click', () => save().then(() => logger.log('Options saved.')));
+document.querySelector('#reset').addEventListener('click', () => reset().then(() => logger.log('Options reset to default.')));
