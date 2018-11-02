@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>My Test Extension Options</title>
+    </head>
+
+    <body>
+        <form name="options">
+            <h3><strong>"What's this?"</strong> bubbles</h3>
+            <label for="feature:whats-this">
+                <input type="checkbox" name="feature:whats-this"> Enable
+            </label>
+
+            <h3><strong>Open link</strong> key</h3>
+            <label for="open-link-o">
+                <input type="radio" name="key:open-link" value="o" id="open-link-o">
+                The <strong>o</strong> key
+            </label>
+            <br />
+            <label for="open-link-space">
+                <input type="radio" name="key:open-link" value="Space" id="open-link-spacw">
+                The <strong>⎵</strong> (space) key
+            </label>
+            <h3>Secondary <strong>navigation</strong></h3>
+            <select name="mode:secondary-navigation" id="mode:secondary-navigation">
+                <option value="khjl"><strong>hjkl</strong> (vim-style)</option>
+                <option value="ikjl"><strong>ijkl</strong> (right hand)</option>
+                <option value="wsad"><strong>wasd</strong> (left hand)</option>
+            </select>
+            <button type="button" id="save">Save</button> <button type="button" id="reset">Restore defaults</button> <button type="button" id="debug">Debug</button>
+        </form>
+
+        <div id="status"></div>
+        <script src="../options.js"></script>
+    </body>
+
+</html>
