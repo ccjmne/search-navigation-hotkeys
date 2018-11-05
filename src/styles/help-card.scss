@@ -31,28 +31,6 @@
     font-weight: normal;
   }
 
-  kbd {
-    display: inline-flex;
-    padding: map-get($spacing-h, tight-em) map-get($spacing-w, tight-em);
-    overflow: hidden;
-    border: 1px solid nth($dark, 3);
-    border-radius: 3px;
-    background-color: nth($light, 2);
-    box-shadow: 0 1px 0 nth($dark, 3);
-    font-family: monospace;
-    white-space: nowrap;
-    cursor: default;
-
-    .kbd-addon {
-      display: inline-flex;
-      align-items: center;
-      margin: -#{map-get($spacing-h, tight-em)} -#{map-get($spacing-w, tight-em)} -#{map-get($spacing-h, tight-em)} map-get($spacing-w, tight-em);
-      padding: 0 map-get($spacing-w, tight-em);
-      border-left: 1px solid nth($dark, 3);
-      background-color: fade-out(nth($dark, 1), .9);
-    }
-  }
-
   .ccjmne-snh-indent {
     display: inline-block;
     margin-right: 5px;
