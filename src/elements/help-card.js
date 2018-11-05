@@ -1,6 +1,6 @@
 'use strict';
 
-import { create } from '../utils/module';
+import { create, getOpts } from '../utils/module';
 
 export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
     <div id="ccjmne-snh-help-card-title">
@@ -9,7 +9,7 @@ export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
     </div>
     <table></table>` });
 
-const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ', 'w/': 'add ' };
+const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ', 'w/': 'add ', ',': ', then ' };
 const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃', Shift: '⇧', Space: '⎵', Enter: '↲', Escape: '␛' };
 
 const table = helpCard.querySelector('table');
@@ -36,10 +36,12 @@ getOpts(['mode:secondary-navigation', 'key:open-link']).then(options => {
       { desc: `Enter [filter & sort] mode`, hotkey: `Ctrl-/` }
     ],
     [
-      { desc: `switch to [all]`, hotkey: `a` },
-      { desc: `switch to [videos]`, hotkey: `v` },
-      { desc: `switch to [images]`, hotkey: `i` },
-      { desc: `switch to [news]`, hotkey: `n` }
+      { desc: `Enter [switch tabs] mode`, hotkey: 'g' },
+      // TODO: extract following from DOM contents
+      { desc: `switch to [all]`, hotkey: `g,a`, indent: 1 },
+      { desc: `switch to [images]`, hotkey: `g,i`, indent: 1 },
+      { desc: `switch to [videos]`, hotkey: `g,v`, indent: 1 },
+      { desc: `switch to [news]`, hotkey: `g,n`, indent: 1 }
     ],
     [
       { desc: `[Show] help`, hotkey: `?` },
@@ -52,4 +54,5 @@ getOpts(['mode:secondary-navigation', 'key:open-link']).then(options => {
     /* transform */.map(s => metaChars[s] || `<kbd class="ccjmne-snh-kbd">${ s }${ addons[s] ? `<span class="kbd-addon">${ addons[s] }</span>` : '' }</kbd>`)
     /* wrap up   */.join('') }</td>` }))));
 
-helpCard.addEventListener('click', e => e.stopPropagation());
+  helpCard.addEventListener('click', e => (e.preventDefault(), e.stopPropagation()));
+});
