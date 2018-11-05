@@ -1,8 +1,9 @@
 'use strict';
 
-import { create, onceAny, onceSome, getUrlParameter, updateUrlParameter, getOpts } from './utils/module';
+import { create, onceAny, onceSome, getUrlParameter, getOpts } from './utils/module';
 import { tooltip, indicator, toggleHelp } from './elements/module';
 import { toggleFilter } from './modules/filter-and-sort';
+import { toggleSwitchTabs } from './modules/switch-tabs';
 require('./styles/module.scss');
 
 getOpts().then(options => {
@@ -10,13 +11,9 @@ getOpts().then(options => {
   const open = options['key:open-link'];
   const opsMap = {
     restoreFocus: () => 'noop', // not yet available
-    'Escape': /*  -> close help   */ () => (toggleHelp(false), opsMap.restoreFocus()),
-    '?': /*       -> show help    */ () => toggleHelp(true),
-    'a': /*       -> 'All' tab    */ () => (window.location.href = updateUrlParameter('tbm', '')),
-    'i': /*       -> 'Images' tab */ () => (window.location.href = updateUrlParameter('tbm', 'isch')),
-    'm': /*       -> 'Maps' tab   */ () => null, // TODO: impl
-    'n': /*       -> 'Vews' tab   */ () => (window.location.href = updateUrlParameter('tbm', 'nws')),
-    'v': /*       -> 'Videos' tab */ () => (window.location.href = updateUrlParameter('tbm', 'vid')),
+    'Escape': /*  -> close help             */ () => (toggleHelp(false), opsMap.restoreFocus()),
+    '?': /*       -> show help              */ () => toggleHelp(true),
+    'g': /*       -> enter switch-tabs mode */ () => toggleSwitchTabs(true)
   };
 
   onceAny('input.gsfi').then(searchField => {
