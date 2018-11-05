@@ -79,6 +79,7 @@ getOpts().then(options => {
         numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
         numberIndicator.addEventListener('mouseenter', tooltip.reveal);
         result.container.style.position = 'relative';
+        result.container.style.overflow = 'visible';
         result.container.prepend(numberIndicator);
       });
 
