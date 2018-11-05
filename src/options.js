@@ -35,5 +35,5 @@ const save = () => new Promise(resolve => chrome.storage.sync.set(
 
 // linking
 document.addEventListener('DOMContentLoaded', restore);
-document.querySelector('#save').addEventListener('click', () => save().then(() => logger.log('Options saved.')));
-document.querySelector('#reset').addEventListener('click', () => reset().then(() => logger.log('Options reset to default.')));
+document.querySelector('#save').addEventListener('click', () => save().then(() => logger.log('Configuration saved.')));
+document.querySelector('#reset').addEventListener('click', () => reset().then(() => logger.log('Configuration reset to default.')));

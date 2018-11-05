@@ -1,6 +1,6 @@
 'use strict';
 
-// jshint -W117
+/* globals chrome */
 
 const tabs = {
   'i': { label: '📷 images', tbm: 'isch' },

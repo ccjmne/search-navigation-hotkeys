@@ -34,7 +34,7 @@ getOpts().then(options => {
     });
   });
 
-  onceAny('body').then(body => body.onkeydown = (e => {
+  onceAny('body').then(body => body.addEventListener('keydown', e => {
     /**
      * Don't mess with:
      * - typing into any input-able element,
