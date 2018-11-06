@@ -18,6 +18,7 @@ getOpts(['mode:secondary-navigation', 'key:open-link']).then(options => {
   const udlr = options['mode:secondary-navigation'];
   const open = options['key:open-link'] === ' ' ? 'Space' : options['key:open-link'];
 
+  // TODO: Highlight configurable options, w/ link to options page
   [
     [
       { desc: `Focus [previous] result`, hotkey: `Up|${ udlr.charAt(0) }` },
