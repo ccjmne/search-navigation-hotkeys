@@ -2,6 +2,7 @@
 
 import { create, onceAny, onceSome, onceMore, getUrlParameter, getOpts } from './utils/module';
 import { tooltip, indicator, toggleHelp } from './elements/module';
+import { cameBack, isBackKey } from './modules/back-to-main';
 import { toggleFilter } from './modules/filter-and-sort';
 import { toggleSwitchTabs } from './modules/switch-tabs';
 require('./styles/module.scss');
@@ -11,7 +12,6 @@ getOpts().then(options => {
   const open = options['key:open-link'];
   const opsMap = {
     restoreFocus: () => 'noop', // not yet available
-    'Escape': /*  -> close help             */ () => (toggleHelp(false), opsMap.restoreFocus()),
     '?': /*       -> show help              */ () => toggleHelp(true),
     'g': /*       -> enter switch-tabs mode */ () => toggleSwitchTabs(true)
   };
@@ -31,6 +31,7 @@ getOpts().then(options => {
     });
   });
 
+  onceAny('body').then(body => body.addEventListener(cameBack, () => opsMap.restoreFocus()));
   onceAny('body').then(body => body.addEventListener('keydown', e => {
     /**
      * Don't mess with:
@@ -43,7 +44,8 @@ getOpts().then(options => {
     }
 
     // Don't react to meta keys 'keydown'
-    if (~['Control', 'Meta', 'Alt', 'Shift', 'CapsLock', 'Tab', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown', 'ScrollLock', 'Pause'].indexOf(e.key)) {
+    if (~['Control', 'Meta', 'Alt', 'Shift', 'CapsLock', 'Tab', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown', 'ScrollLock', 'Pause']
+      .concat([...Array(12).keys()].map(i => 'F' + i)).indexOf(e.key)) {
       return;
     }
 
@@ -53,6 +55,10 @@ getOpts().then(options => {
     }
 
     (op => typeof op === 'function' && Promise.resolve(e.preventDefault()).then(() => e.stopPropagation()).then(() => op(e)))(opsMap[e.key]);
+
+    if (isBackKey(e.key)) {
+      opsMap.restoreFocus();
+    }
   }));
 
   function init(nodes) {

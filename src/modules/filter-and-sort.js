@@ -1,6 +1,7 @@
 'use strict';
 
 import { onceAny, onceSome, getOpts } from '../utils/module';
+import { useAsRoot } from './back-to-main';
 
 const selectors = { root: '#hdtbMenus', menus: '.hdtb-mn-hd[role=button][aria-haspopup=true]', options: ['.hdtb-mn-o .hdtbItm > a', '.hdtb-mn-o :not(input)[tabindex]'] };
 
@@ -23,12 +24,8 @@ export function toggleFilter(visible) {
 Promise.all([onceAny(selectors.root), onceSome(`${ selectors.root } ${ selectors.menus }`), getOpts()]).then(([root, menus, options]) => {
   const udlr = options['mode:secondary-navigation'];
   const open = options['key:open-link'];
+  useAsRoot(root).onBack(() => toggleFilter(false));
   root.addEventListener('keydown', e => {
-    if (~['?', '/', 'Escape'].indexOf(e.key)) {
-      // Bypass e.stopPropagation()
-      return toggleFilter(false);
-    }
-
     if (~['Enter', 'Escape', open, open.toUpperCase(), 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].concat(udlr.split('')).indexOf(e.key)) {
       const focused = root.querySelector(selectors.options.map(s => `${ s }:focus`)),
         options = [].slice.apply(root.querySelectorAll(selectors.options)),

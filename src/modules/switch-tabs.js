@@ -1,6 +1,7 @@
 'use strict';
 
 import { create, onceAny, onceSome } from '../utils/module';
+import { useAsRoot } from './back-to-main';
 
 const selectors = (main => ({
   mainArea: main,
@@ -9,27 +10,15 @@ const selectors = (main => ({
   more: `${ main } .hdtb-mitem > a:not(.q)`
 }))('#hdtb-msb');
 
-const opsMap = {
-  'Escape': () => toggleSwitchTabs(false)
-};
-
-['g', 'q'].forEach(key => Object.assign(opsMap, { // jshint -W069
-  [key]: opsMap['Escape'],
-  [key.toUpperCase()]: opsMap['Escape'] // jshint +W069
-}));
-
 const tabsMap = {};
 let subTabsMap = tabsMap;
 
-const trapFocus = create({ attributes: { tabindex: -1 } });
-trapFocus.addEventListener('blur', () => toggleSwitchTabs(false));
+const trapFocus = create({});
 trapFocus.addEventListener('keydown', e => {
+  e.preventDefault();
+  e.stopPropagation();
   if (typeof subTabsMap[e.key] !== 'undefined' && typeof subTabsMap[e.key].go === 'function') {
     return subTabsMap[e.key].go();
-  }
-
-  if (typeof opsMap[e.key] === 'function') {
-    return opsMap[e.key](e), e.preventDefault(), e.stopPropagation();
   }
 
   const deeper = Object.keys(subTabsMap).filter(s => s[0] === e.key).reduce((acc, k) => Object.assign(acc, {
@@ -51,6 +40,22 @@ const getContentsWidth = e => {
   const borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
   return e.offsetWidth - paddingX - borderX;
 };
+
+export function toggleSwitchTabs(visible) {
+  Promise.all([onceAny(selectors.mainArea), onceAny(selectors.more), onceSome(selectors.indicators)]).then(([mainArea, more, indicators]) => {
+    if (visible === indicators.some(i => i.offsetParent === null)) {
+      more.click();
+    }
+
+    if (visible) {
+      subTabsMap = tabsMap;
+      trapFocus.focus();
+      mainArea.scrollIntoView({ block: 'center', inline: 'center' });
+    }
+
+    indicators.forEach(i => i.style.opacity = visible ? 1 : 0);
+  });
+}
 
 onceSome(selectors.tabs).then(tabs => tabs.map(tab => (tab._name = tab.textContent.toLowerCase(), tab)).map(tab => [tab, tabs.map(t => t._name).filter(n => n !== tab._name)])
   .map(([tab, others]) => [tab, ([...Array(10).keys()].find(i => !others.some(o => o.startsWith(tab._name.substring(0, i)))))])
@@ -75,22 +80,4 @@ onceSome(selectors.tabs).then(tabs => tabs.map(tab => (tab._name = tab.textConte
       indicator.style.left = `${ (getContentsWidth(indicator.tab) - indicator.getBoundingClientRect().width) / 2 }px`;
       indicator.style.transform = 'translateY(-100%)';
     }
-  })).then(() => onceAny('body')).then(body => body.append(trapFocus));
-
-export function toggleSwitchTabs(visible) {
-  Promise.all([onceAny(selectors.mainArea), onceAny(selectors.more), onceSome(selectors.indicators)]).then(([mainArea, more, indicators]) => {
-    if (visible === indicators.some(i => i.offsetParent === null)) {
-      more.click();
-    }
-
-    if (visible) {
-      subTabsMap = tabsMap;
-      trapFocus.focus();
-      mainArea.scrollIntoView({ block: 'center', inline: 'center' });
-    } else {
-      trapFocus.blur();
-    }
-
-    indicators.forEach(i => i.style.opacity = visible ? 1 : 0);
-  });
-}
+  })).then(() => onceAny('body')).then(body => (body.append(trapFocus), useAsRoot(trapFocus).onBack(() => toggleSwitchTabs(false))));
