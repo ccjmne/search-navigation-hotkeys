@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>My Test Extension Options</title>
+        <style media="screen"> html, body { min-width: 400px; }</style>
+    </head>
+
+    <body>
+        <form name="options">
+            <h3>"<strong>What's this?</strong>" bubbles</h3>
+            <p>These bubbles appear when you mouse over an indicator in the results.</p>
+            <label for="feature:whats-this">
+                <input type="checkbox" name="feature:whats-this" id="feature:whats-this">
+                Enable
+            </label>
+
+            <center>♦♦♦♦</center>
+            <h3>Secondary <strong>open</strong> key</h3>
+            <p>This key can be used as an alternative to the <em>Enter</em> key to:
+                <ul>
+                    <li>open the focused link</li>
+                    <li>toggle the highlighted option in the <em>filter and sort</em> menus</li>
+                </ul>
+            </p>
+            <label for="key:open-link-o">
+                <input type="radio" name="key:open-link" value="o" id="key:open-link-o">
+                Use the <strong>O</strong> key
+            </label>
+            <br />
+            <label for="key:open-link-space">
+                <input type="radio" name="key:open-link" value=" " id="key:open-link-space">
+                Use the <strong>⎵</strong> (space) key
+            </label>
+
+            <center>♦♦♦♦</center>
+            <h3>Secondary <strong>navigation</strong> keys</h3>
+            <p>These keys can be used as an alternative to the <em>arrow keys</em> when:
+                <ul>
+                    <li>navigating through the search results</li>
+                    <li>navigating through the <em>filter and sort</em> menus</li>
+                </ul>
+            </p>
+            <label for="mode:secondary-navigation">
+                Navigate with:
+                <select name="mode:secondary-navigation" id="mode:secondary-navigation">
+                    <option value="kjhl"><strong>hjkl</strong> (vim-style)</option>
+                    <option value="ikjl"><strong>ijkl</strong> (right hand)</option>
+                    <option value="edsf"><strong>esdf</strong> (left hand)</option>
+                    <option value="wsad"><strong>wasd</strong> (gamer-style)</option>
+                </select>
+            </label>
+            <br /><br />
+            <div style="display: flex; align-items: center">
+                <div id="status" style="flex-grow: 1"></div>
+                <button type="button" id="reset">Restore defaults</button>
+                <button type="button" id="save">Save</button>
+            </div>
+        </form>
+
+        <script src="../options.js"></script>
+    </body>
+
+</html>

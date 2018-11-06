@@ -2,6 +2,7 @@
 
 import { create, throttle } from '../utils/module';
 import { helpCard } from './help-card';
+import { useAsRoot } from '../modules/back-to-main';
 
 const backdrop = create({ id: 'ccjmne-snh-backdrop', contents: `
     <div id="ccjmne-snh-tilt-origin">
@@ -13,6 +14,7 @@ const backdrop = create({ id: 'ccjmne-snh-backdrop', contents: `
 export function toggleHelp(visible) {
   if (visible && !backdrop.parentNode) {
     document.body.prepend(backdrop);
+    useAsRoot(backdrop).andFocus().onBack(() => toggleHelp(false));
     backdrop.animate({ opacity: [0, 1] }, { duration: 200, easing: 'ease-out' });
     helpCard.animate({ transform: ['translateY(-50%) rotateX(80deg)', 'translateY(2%) rotateX(0)', 'translateY(0)'], opacity: [0, 1, 1], offset: [0, .8] }, { duration: 300, delay: 100, easing: 'ease-out', fill: 'backwards' });
   } else if (!visible && backdrop.parentNode) {

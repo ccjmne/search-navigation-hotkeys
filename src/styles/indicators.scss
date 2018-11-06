@@ -24,3 +24,15 @@
     display: none;
   }
 }
+
+.ccjmne-snh-tab-indicator-container {
+  position: absolute;
+
+  > kbd.ccjmne-snh-kbd {
+    position: relative;
+    opacity: 0;
+    font-size: 12px;
+    line-height: initial;
+    cursor: inherit;
+  }
+}
