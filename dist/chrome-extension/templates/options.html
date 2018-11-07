@@ -1,62 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 
     <head>
-        <title>My Test Extension Options</title>
-        <style media="screen"> html, body { min-width: 400px; }</style>
+        <!-- <meta charset="utf-8"> -->
+        <title>Search Navigation Hotkeys for Google™ search — Configuration</title>
+        <style>body { min-width: 420px; margin: 0; }</style>
+        <style>.padded { padding: 4vw; }</style>
+        <style>*::-webkit-scrollbar {	width: 6px; background-color: lightgrey; border-left: 1px solid grey; } *::-webkit-scrollbar-thumb {	background-color: grey; }</style>
+        <style>h2 { background: #ccc; border-top: 3px solid #aaa; margin: 0; padding: 1vh 4vw 2vh; }</style>
+        <style>.info { background-color: #eee; display: flow-root; padding: 0 4vw; }</style>
     </head>
 
     <body>
-        <form name="options">
-            <h3>"<strong>What's this?</strong>" bubbles</h3>
-            <p>These bubbles appear when you mouse over an indicator in the results.</p>
-            <label for="feature:whats-this">
-                <input type="checkbox" name="feature:whats-this" id="feature:whats-this">
-                Enable
-            </label>
+        <form name="options" style="max-height: 480px; overflow-y: auto" autocomplete="off">
+            <h2>"<strong>What's this?</strong>" bubbles</h2>
+            <div class="info">
+                <p>These bubbles appear when you mouse over an indicator in the results.</p>
+            </div>
+            <div class="padded">
+                <label for="feature:whats-this">
+                    <input type="checkbox" name="feature:whats-this" id="feature:whats-this">
+                    Enable
+                </label>
+            </div>
 
-            <center>♦♦♦♦</center>
-            <h3>Secondary <strong>open</strong> key</h3>
-            <p>This key can be used as an alternative to the <em>Enter</em> key to:
+            <h2>Secondary <strong>open</strong> key</h2>
+            <div class="info">
+                <p>
+                    This key can be used as an alternative to the <em>Enter</em> key to:
+                </p>
                 <ul>
                     <li>open the focused link</li>
                     <li>toggle the highlighted option in the <em>filter and sort</em> menus</li>
                 </ul>
-            </p>
-            <label for="key:open-link-o">
-                <input type="radio" name="key:open-link" value="o" id="key:open-link-o">
-                Use the <strong>O</strong> key
-            </label>
-            <br />
-            <label for="key:open-link-space">
-                <input type="radio" name="key:open-link" value=" " id="key:open-link-space">
-                Use the <strong>⎵</strong> (space) key
-            </label>
+            </div>
+            <div class="padded">
+                <label for="key:open-link-o">
+                    <input type="radio" name="key:open-link" value="o" id="key:open-link-o">
+                    Use the <strong>o</strong> key
+                </label>
+                <br />
+                <label for="key:open-link-space">
+                    <input type="radio" name="key:open-link" value=" " id="key:open-link-space">
+                    Use the <strong>⎵</strong> (space) key
+                </label>
+            </div>
 
-            <center>♦♦♦♦</center>
-            <h3>Secondary <strong>navigation</strong> keys</h3>
-            <p>These keys can be used as an alternative to the <em>arrow keys</em> when:
+            <h2><strong>Exit</strong> current mode key</h2>
+            <div class="info">
+                <p>
+                    This key is used to:
+                </p>
+                <ul>
+                    <li>close the <em>help card</em></li>
+                    <li>exit <em>filter and sort</em> mode</li>
+                    <li>exit <em>switch tabs</em> mode</li>
+                </ul>
+            </div>
+            <div class="padded">
+                <label for="key:exit-current-mode">
+                    Use:
+                    <input type="text" name="key:exit-current-mode" id="key:exit-current-mode" style="text-align: center">
+                </label>
+            </div>
+
+            <h2>Secondary <strong>navigation</strong> keys</h2>
+            <div class="info">
+                <p>
+                    These keys can be used as an alternative to the <em>arrow keys</em> when:
+                </p>
                 <ul>
                     <li>navigating through the search results</li>
                     <li>navigating through the <em>filter and sort</em> menus</li>
                 </ul>
-            </p>
-            <label for="mode:secondary-navigation">
-                Navigate with:
-                <select name="mode:secondary-navigation" id="mode:secondary-navigation">
-                    <option value="kjhl"><strong>hjkl</strong> (vim-style)</option>
-                    <option value="ikjl"><strong>ijkl</strong> (right hand)</option>
-                    <option value="edsf"><strong>esdf</strong> (left hand)</option>
-                    <option value="wsad"><strong>wasd</strong> (gamer-style)</option>
-                </select>
-            </label>
-            <br /><br />
-            <div style="display: flex; align-items: center">
-                <div id="status" style="flex-grow: 1"></div>
-                <button type="button" id="reset">Restore defaults</button>
-                <button type="button" id="save">Save</button>
+            </div>
+            <div class="padded">
+                <label for="mode:secondary-navigation">
+                    Navigate with:
+                    <select name="mode:secondary-navigation" id="mode:secondary-navigation">
+                        <option value="kjhl"><strong>hjkl</strong> (vim-style)</option>
+                        <option value="ikjl"><strong>ijkl</strong> (right hand)</option>
+                        <option value="edsf"><strong>esdf</strong> (left hand)</option>
+                        <option value="wsad"><strong>wasd</strong> (gamer-style)</option>
+                    </select>
+                </label>
             </div>
         </form>
+        <div class="padded" style="display: flex; align-items: center; border-top: 1px solid #ccc">
+            <div id="status" style="flex-grow: 1"></div>
+            <button type="button" id="reset">Restore defaults</button>
+            <button type="button" id="save">Save</button>
+        </div>
 
         <script src="../options.js"></script>
     </body>

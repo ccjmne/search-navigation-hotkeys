@@ -1,7 +1,9 @@
 'use strict';
 
+import { getOpts } from '../utils/module';
+
 const backEventName = 'ccjmne-snh-restoreFocus';
-const keys = ['Escape', 'q', 'Q'];
+let keys = [];
 
 export { backEventName as cameBack };
 
@@ -42,3 +44,5 @@ export function useAsRoot(root) {
   const lib = {};
   return Object.assign(lib, { onBack: hook => (self.hook = hook, lib), andFocus: () => (root.focus(), lib) });
 }
+
+getOpts('key:exit-current-mode').then(quit => keys = ['Escape', quit, quit.toUpperCase()]);

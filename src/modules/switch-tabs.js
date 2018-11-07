@@ -57,8 +57,10 @@ export function toggleSwitchTabs(visible) {
   });
 }
 
-onceSome(selectors.tabs).then(tabs => tabs.map(tab => (tab._name = tab.textContent.toLowerCase(), tab)).map(tab => [tab, tabs.map(t => t._name).filter(n => n !== tab._name)])
-  .map(([tab, others]) => [tab, ([...Array(10).keys()].find(i => !others.some(o => o.startsWith(tab._name.substring(0, i)))))])
+onceSome(selectors.tabs).then(tabs => tabs
+  .map(tab => (tab._name = tab.textContent.toLowerCase(), tab))
+  .map(tab => [tab, tabs.map(t => t._name).filter(n => n !== tab._name)])
+  .map(([tab, others]) => [tab, [...Array(tab._name.length).keys()].find(i => !others.some(o => o.startsWith(tab._name.substr(0, i))))])
   .map(([tab, length]) => [tab, tab._name.substring(0, length)])
   .map(([tab, short]) => Object.assign(create({
     type: 'kbd',
