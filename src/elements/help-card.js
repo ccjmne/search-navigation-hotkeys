@@ -14,9 +14,10 @@ const addons = { Up: '↑', Down: '↓', Left: '←', Right: '→', Ctrl: '⌃',
 
 const table = helpCard.querySelector('table');
 
-getOpts(['mode:secondary-navigation', 'key:open-link']).then(options => {
+getOpts(['mode:secondary-navigation', 'key:open-link', 'key:exit-current-mode']).then(options => {
   const udlr = options['mode:secondary-navigation'];
   const open = options['key:open-link'] === ' ' ? 'Space' : options['key:open-link'];
+  const quit = options['key:exit-current-mode'];
 
   // TODO: Highlight configurable options, w/ link to options page
   [
@@ -46,7 +47,7 @@ getOpts(['mode:secondary-navigation', 'key:open-link']).then(options => {
     ],
     [
       { desc: `Enter [help] mode`, hotkey: `?` },
-      { desc: `[Quit] current mode`, hotkey: `Escape|q` }
+      { desc: `[Quit] current mode`, hotkey: `Escape|${ quit }` }
     ]
   ].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-snh-new-section'] : [], contents: `
   <td>${ op.indent ? `<div class="ccjmne-snh-indent ccjmne-snh-indent-${ op.indent }"></div>` : '' }${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
