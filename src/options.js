@@ -28,10 +28,14 @@ const restore = () => new Promise(resolve => chrome.storage.sync.get(
 const reset = () => new Promise(resolve => chrome.storage.sync.clear(() => resolve(restore())));
 const save = () => new Promise(resolve => chrome.storage.sync.set(
   Object.keys(defaults).map(name => [name, form[name]]).map(([name, e]) => ({
-    [name]: typeof e.checked !== 'undefined' ? e.checked : e.value
+    [name]: typeof e.value !== 'undefined' ? e.value : e.checked
   })).reduce((acc, option) => Object.assign(acc, option), {}),
   resolve
 ));
+
+// validation
+document.querySelector('[name="key:exit-current-mode"]').addEventListener('click', function () { this.select(); });
+document.querySelector('[name="key:exit-current-mode"]').addEventListener('input', function () { this.value = this.value.replace(/[^a-zA-Z]/, '').slice(-1).toLowerCase(); });
 
 // linking
 document.addEventListener('DOMContentLoaded', restore);

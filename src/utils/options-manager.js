@@ -2,7 +2,7 @@
 
 /* globals chrome */
 
-const defaults = { 'key:open-link': ' ', 'feature:whats-this': true, 'mode:secondary-navigation': 'kjhl' };
+const defaults = { 'key:open-link': ' ', 'key:exit-current-mode': 'q', 'feature:whats-this': true, 'mode:secondary-navigation': 'kjhl' };
 const pick = (keys, obj = defaults) => Object.keys(obj).filter(k => ~keys.indexOf(k)).reduce((acc, k) => Object.assign(acc, {
   [k]: obj[k]
 }), {});
