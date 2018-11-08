@@ -28,7 +28,7 @@ const restore = () => new Promise(resolve => chrome.storage.sync.get(
 const reset = () => new Promise(resolve => chrome.storage.sync.clear(() => resolve(restore())));
 const save = () => new Promise(resolve => chrome.storage.sync.set(
   Object.keys(defaults).map(name => [name, form[name]]).map(([name, e]) => ({
-    [name]: typeof e.value !== 'undefined' ? e.value : e.checked
+    [name]: e instanceof Element && e.matches('[type=checkbox]') ? e.checked : e.value
   })).reduce((acc, option) => Object.assign(acc, option), {}),
   resolve
 ));
