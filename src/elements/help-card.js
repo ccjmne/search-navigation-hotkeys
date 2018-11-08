@@ -47,7 +47,7 @@ getOpts(['mode:secondary-navigation', 'key:open-link', 'key:exit-current-mode'])
     ],
     [
       { desc: `Enter [help] mode`, hotkey: `?` },
-      { desc: `[Quit] current mode`, hotkey: `Escape|${ quit }` }
+      { desc: `[Exit] current mode`, hotkey: `Escape|${ quit }` }
     ]
   ].forEach(block => block.forEach((op, idx) => table.appendChild(create({ type: 'tr', classes: idx === 0 ? ['ccjmne-snh-new-section'] : [], contents: `
   <td>${ op.indent ? `<div class="ccjmne-snh-indent ccjmne-snh-indent-${ op.indent }"></div>` : '' }${ op.desc.replace(/\[([^\]]+)\]/g, (unused, d) => `<em>${ d }</em>`) }</td>
