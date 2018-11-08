@@ -6,5 +6,5 @@ import { toggleHelp } from './help-overlay';
 
 export { toggleHelp, tooltip, indicator };
 
-indicator.addEventListener('mouseenter', tooltip.reveal);
+indicator.addEventListener('mouseenter', e => tooltip.reveal(e));
 tooltip.addEventListener('click', () => toggleHelp(true));
