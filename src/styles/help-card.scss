@@ -10,9 +10,6 @@
   user-select: none;
 
   #ccjmne-snh-help-card-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
     padding: map-get($spacing-h, comfortable) map-get($spacing-w, comfortable);
     border-bottom: 3px solid $colour-accent;
     border-radius: 5px 5px 0 0;

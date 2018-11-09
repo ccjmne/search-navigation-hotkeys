@@ -1,4 +1,4 @@
-# ![Logo](dist/chrome-extension/assets/icon-48.png "Logo") Navigation Hotkeys for _Google™ search_
+# ![Logo](dist/chrome-extension/assets/icon-30.png "Logo") Navigation Hotkeys for _Google™ search_
 
 Navigate results from _Google™ search_ results without ever lifting your hands off the keyboard!
 
@@ -22,7 +22,7 @@ Navigate results from _Google™ search_ results without ever lifting your hands
 | Search <strong>images</strong>                  |        <kbd>g</kbd>, then <kbd>i</kbd> |              |
 | Search <strong>news</strong>                    |        <kbd>g</kbd>, then <kbd>n</kbd> |              |
 | Enter <strong>help</strong> mode                |                           <kbd>?</kbd> |              |
-| <strong>Quit</strong> current mode              |                           <kbd>q</kbd> |              |
+| <strong>Exit</strong> current mode              |                           <kbd>q</kbd> |       ✓      |
 
 ## TODO
 

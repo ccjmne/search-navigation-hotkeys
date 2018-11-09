@@ -24,11 +24,11 @@ const logger = new Logger(document.getElementById('status'));
 // operations
 const restore = () => new Promise(resolve => chrome.storage.sync.get(
   defaults,
-  data => resolve(Object.keys(data).forEach(name => (prop => form[name][prop] = data[name])(typeof data[name] === 'boolean' ? 'checked' : 'value')))));
+  data => (Object.keys(data).forEach(name => (prop => form[name][prop] = data[name])(typeof data[name] === 'boolean' ? 'checked' : 'value')), resolve(data))));
 const reset = () => new Promise(resolve => chrome.storage.sync.clear(() => resolve(restore())));
 const save = () => new Promise(resolve => chrome.storage.sync.set(
   Object.keys(defaults).map(name => [name, form[name]]).map(([name, e]) => ({
-    [name]: typeof e.value !== 'undefined' ? e.value : e.checked
+    [name]: e instanceof Element && e.matches('[type=checkbox]') ? e.checked : e.value
   })).reduce((acc, option) => Object.assign(acc, option), {}),
   resolve
 ));

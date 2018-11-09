@@ -2,7 +2,8 @@
 .ccjmne-snh-number-indicator {
   position: absolute;
   left: -1.5em;
-  cursor: help;
+  cursor: default;
+  user-select: none;
 }
 
 #ccjmne-snh-indicator {
