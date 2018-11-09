@@ -3,10 +3,7 @@
 import { create, getOpts } from '../utils/module';
 
 export const helpCard = create({ id: 'ccjmne-snh-help-card', contents: `
-    <div id="ccjmne-snh-help-card-title">
-        <span>Navigation Hotkeys for Google™ Search</span>
-        <small>by&nbsp;<a href="https://github.com/ccjmne">ccjmne</a></small>
-    </div>
+    <center id="ccjmne-snh-help-card-title">Navigation Hotkeys for Google™ Search</center>
     <table></table>` });
 
 const metaChars = { '..': ' to ', '-': '+', '|': ' or ', '[': ' [', ']': '] ', 'w/': 'add ', ',': ', then ' };
