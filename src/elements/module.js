@@ -1,6 +1,6 @@
 'use strict';
 
-import { $tooltip } from './tooltip';
+import { $tooltip } from './bubble';
 import { indicator } from './indicator';
 import { toggleHelp } from './help-overlay';
 
