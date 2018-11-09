@@ -1,7 +1,7 @@
 'use strict';
 
 import { create, onceAny, onceSome, onceMore, getUrlParameter, getOpts } from './utils/module';
-import { tooltip, indicator, toggleHelp } from './elements/module';
+import { $tooltip, indicator, toggleHelp } from './elements/module';
 import { cameBack, isBackKey } from './modules/back-to-main';
 import { toggleFilter } from './modules/filter-and-sort';
 import { toggleSwitchTabs } from './modules/switch-tabs';
@@ -84,7 +84,7 @@ getOpts().then(options => {
       self.results.forEach((result, idx) => {
         const numberIndicator = create({ classes: ['ccjmne-snh-number-indicator'], contents: idx + 1 });
         numberIndicator.pickStylesFrom(result.palette, ['height', 'line-height']);
-        numberIndicator.addEventListener('mouseenter', e => tooltip.reveal(e));
+        numberIndicator.addEventListener('mouseenter', e => $tooltip.then(t => t.reveal(e)));
         result.container.style.position = 'relative';
         result.container.style.overflow = 'visible';
         result.container.querySelectorAll('.ccjmne-snh-number-indicator').forEach(e => result.container.removeChild(e));

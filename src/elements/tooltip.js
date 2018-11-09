@@ -2,9 +2,9 @@
 
 import { create, getOpts } from '../utils/module';
 
-export const tooltip = create({ id: 'ccjmne-snh-tooltip' });
+const tooltip = create({ id: 'ccjmne-snh-tooltip' });
 
-getOpts('feature:whats-this').then(enabled => Object.assign(tooltip, {
+export const $tooltip = getOpts('feature:whats-this').then(enabled => Object.assign(tooltip, {
   concealTimer: null,
   reveal: e => {
     if (enabled && tooltip.parentNode !== e.target) {
