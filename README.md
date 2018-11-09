@@ -1,4 +1,4 @@
-# ![Logo](dist/chrome-extension/assets/icon-30.png "Logo") Navigation Hotkeys for _Google™ search_
+# ![Logo](dist/chrome-extension/assets/icon-48.png "Logo") Navigation Hotkeys for _Google™ search_
 
 Navigate results from _Google™ search_ results without ever lifting your hands off the keyboard!
 
@@ -30,10 +30,12 @@ Navigate results from _Google™ search_ results without ever lifting your hands
 -   [x] Open links with <kbd>o</kbd>
 -   [ ] Options: Preferred Google™ search domain for omnibox quick search
 -   [x] Options: Disable Space opening links
--   [ ] Options: Disable "What's this?" bubbles
--   [ ] Include a `no-help` build w/ each release
+-   [x] Options: Disable "What's this?" bubbles
+-   [ ] Options: Enter "switch-tabs" mode key
+-   ~~[ ] Include a `no-help` build w/ each release~~
 -   [ ] Complete README w/ pictures and animated gifs
 -   [ ] Contribution guidelines (CONTRIBUTE.md)
+-   [ ] Issue templates (bugs and feature requests): See [About issue and pull request templates](https://help.github.com/articles/creating-issue-templates-for-your-repository/)
 
 ## Trademark disclaimer
 
