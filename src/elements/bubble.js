@@ -24,4 +24,4 @@ export const $tooltip = getOpts('feature:whats-this').then(enabled => Object.ass
   }, { duration: 200, easing: 'ease-in', fill: 'backwards' }).onfinish = () => tooltip.parentNode && tooltip.parentNode.removeChild(tooltip)) && clearTimeout(tooltip.concealTimer)
 }));
 
-tooltip.addEventListener('click', tooltip.conceal);
+$tooltip.then(t => t.addEventListener('click', t.conceal));
