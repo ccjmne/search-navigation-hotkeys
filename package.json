@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/ccjmne/search-navigation-hotkeys#readme",
   "devDependencies": {
-    "@babel/core": "^7.1.2",
+    "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.1.0",
     "babel-loader": "^8.0.4",
     "babel-minify-webpack-plugin": "^0.3.1",
