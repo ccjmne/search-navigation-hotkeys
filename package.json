@@ -47,7 +47,7 @@
     "userscript-meta": "^1.0.1",
     "webpack": "^4.20.2",
     "webpack-chrome-extension-reloader": "^0.8.3",
-    "webpack-cli": "^3.1.1",
+    "webpack-cli": "^3.3.10",
     "wrapper-webpack-plugin": "^2.0.0",
     "zip-webpack-plugin": "^3.0.0"
   }
