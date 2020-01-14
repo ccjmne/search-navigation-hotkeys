@@ -2,6 +2,10 @@
 
 Navigate results from _Google™ search_ results without ever lifting your hands off the keyboard!
 
+## Installation
+
+Obtain it directly [through the Chrome Web Store](https://chrome.google.com/webstore/detail/search-navigation-hotkeys/ifbjebjodkkageignlfdkipikmdllhjf).
+
 ## Features
 
 | Command                                         |                                Hotkeys | Configurable |
@@ -32,7 +36,7 @@ Navigate results from _Google™ search_ results without ever lifting your hands
 -   [x] Options: Disable Space opening links
 -   [x] Options: Disable "What's this?" bubbles
 -   [ ] Options: Enter "switch-tabs" mode key
--   ~~[ ] Include a `no-help` build w/ each release~~
+-   [ ] ~~Include a `no-help` build w/ each release~~
 -   [ ] Complete README w/ pictures and animated gifs
 -   [ ] Contribution guidelines (CONTRIBUTE.md)
 -   [ ] Issue templates (bugs and feature requests): See [About issue and pull request templates](https://help.github.com/articles/creating-issue-templates-for-your-repository/)
